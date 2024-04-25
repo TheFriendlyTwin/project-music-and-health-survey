@@ -13,7 +13,7 @@ And additionaly to predict if an individuals music preference can influence thei
 
 
 ## Files
-- 'archive'/ mxmh_survey_results - Music & Mental Health Survey Results kaggle dataset csv file
+- ´archive´/ mxmh_survey_results - Music & Mental Health Survey Results kaggle dataset csv file
 - Music & Mental Health Survey Results - python file for containing:
   -  Data cleaning/ data preparation
   -  Descriptive Statistics
