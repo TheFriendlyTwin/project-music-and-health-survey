@@ -14,15 +14,17 @@ And additionaly to predict if an individuals music preference can influence thei
 
 ## Files
 - ´archive´/ mxmh_survey_results - Music & Mental Health Survey Results kaggle dataset csv file
-- Music & Mental Health Survey Results - python file for containing:
-  -  Data cleaning/ data preparation
-  -  Descriptive Statistics
-  -  Data exploration
-  -  Correlation Analysis
-  -  Hypothesis Testing
-  -  Regression Analysis
-  -  Cluster Analysis
-  -  Predictive Modeling
+- EDA & CDA - python file for containing:
+  - Exploratory Data Analysis (EDA):
+    - Data cleaning/ data preparation
+    - Descriptive Statistics
+    - Data exploration
+    - Correlation Analysis
+  - Confirmatory Data Analysis (CDA):
+    - Hypothesis Testing
+    - Regression Analysis
+    - Cluster Analysis
+    - Predictive Modeling
   
 
 ## Presentation essentials
