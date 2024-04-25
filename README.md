@@ -1,2 +1,4 @@
-# project-music-and-health-survey
-Repository for Ironhacks Data Analytics Final Project
+# Final Project - Music & Health Survey results
+Repository for Mafalda Sousa's Ironhacks Data Analytics Final Project
+
+## Dataset
