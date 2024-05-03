@@ -50,17 +50,20 @@ And additionaly to predict if an individuals music preference can influence thei
 
 ## Files
 - ´archive´/ mxmh_survey_results - Music & Mental Health Survey Results kaggle dataset csv file
-- EDA & CDA - python file for containing:
+- EDA python file containing:
   - Exploratory Data Analysis (EDA):
     - Data cleaning/ data preparation
     - Descriptive Statistics
     - Data exploration
     - Correlation Analysis
+- CDA python file containing:
   - Confirmatory Data Analysis (CDA):
     - Hypothesis Testing
     - Regression Analysis
-    - Cluster Analysis
-    - Predictive Modeling
+      - Linear Regression
+      - Logistic Regression
+    - Machine Learning
+      - Decision Trees
   
 
 ## Presentation essentials
