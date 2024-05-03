@@ -1,6 +1,6 @@
 # SQL Questions
 
-This file contains the list querries performed to answer questions regarding our dataset.
+This file contains the list of querries performed to answer questions regarding our dataset.
 
 1. How many respondents does our dataset contain?
     - R: 735 respondents
@@ -24,7 +24,7 @@ This file contains the list querries performed to answer questions regarding our
     - R: 524 explore new music 211 don't.
 
 6. What is the average score of anxiety, depression, insomnia and OCD?
-    - R: 6 for anxiety, 5 for depression, 4 for insomnia and 3 for ocd.
+    - R: In a scale of 0 to 10, 6 for anxiety, 5 for depression, 4 for insomnia and 3 for OCD.
 
     6.1 ADDITIONAL: What is the highest score for each mental health issue answered?
         - R: 10 for all.
@@ -33,10 +33,11 @@ This file contains the list querries performed to answer questions regarding our
         - R: 0 for all.
 
 7. How many respondents have severe anxiety (7-10), are highly depressed (7-10), often suffer from insomnia (7-10) and are higly affected by OCD (7-10)? 
-Note: Include a column for each quantification.
-    R: 360 have severe anxiety, 256 are highly depressed, 169 suffer often from insomnia and 96 are highly affect by OCD.
+    
+    Note: Include a column for each quantification.
+    - R: Out of 735 respondents, 360 have severe anxiety, 256 are highly depressed, 169 suffer often from insomnia and 96 are highly affect by OCD.
 
-    7.1 How many respondents experienced all the mentioned mental health issue (>= 3)?
+    7.1 ADDITIONAL: How many respondents experienced all the mentioned mental health issue (>= 3)?
     - R: Out of 735, 173 respondents.
 
 8. How many respondents are musicians (play an instrument or compose) and have severe anxiety (7-10) VS non musicians who have severe anxiety?
@@ -64,31 +65,31 @@ Note: Include a column for each quantification.
     - R: Out of 735, 66 music explorers and 30 non explorers are highly affected by OCD.
 
 16. Write a querry that includes: 
-    - How many respondents who play an instrument have answered that music has improve their mental health
+    - How many respondents who play an instrument have answered that music has improve their mental health?
         - R: Out of 235 instrumentalists, 188 respondents.
-    - How many respondents who play an instrument have answered that music has no effects or worsen their mental health
+    - How many respondents who play an instrument have answered that music has no effects or worsen their mental health?
         - R: Out of 235 instrumentalists, 47 respondents.
-    - How many respondents that don't play an instrument have answered that music has improve their mental health
-        - R: Out of 500 non instrumentalists, 353 non respondents.
-    - How many respondents that don't play an instrument have answered that music has no effects or worsen their mental health
-        - R: Out of 500 non instrumentalists, 147 non respondents.
+    - How many respondents that don't play an instrument have answered that music has improve their mental health?
+        - R: Out of 500 non instrumentalists, 353 respondents.
+    - How many respondents that don't play an instrument have answered that music has no effects or worsen their mental health?
+        - R: Out of 500 non instrumentalists, 147 respondents.
 
 17. Write a querry that includes: 
-    - How many respondents who compose have answered that music has improve their mental health
+    - How many respondents who compose have answered that music has improve their mental health?
         - R: Out of 126 composers, 104 respondents.
-    - How many respondents who compose have answered that music has no effects or worsen their mental health
+    - How many respondents who compose have answered that music has no effects or worsen their mental health?
         - R: Out of 126 composers, 22 respondents.
-    - How many respondents that don't compose have answered that music has improve their mental health
+    - How many respondents that don't compose have answered that music has improve their mental health?
         - R: Out of 609 non composers, 437 respondents.
-    - How many respondents that don't compose have answered that music has no effects or worsen their mental health
+    - How many respondents that don't compose have answered that music has no effects or worsen their mental health?
         - R: Out of 609 non composers, 172 respondents.
 
 18. Write a querry that includes: 
-    - How many respondents who explore new music have answered that music has improve their mental health
+    - How many respondents who explore new music have answered that music has improve their mental health?
         - R: Out of 524 music explorers, 409 respondents.
-    - How many respondents who explore new music have answered that music has no effects or worsen their mental health
+    - How many respondents who explore new music have answered that music has no effects or worsen their mental health?
         - R: Out of 524 music explorers, 115 respondents.
-    - How many respondents that don't explore new music have answered that music has improve their mental health
+    - How many respondents that don't explore new music have answered that music has improve their mental health?
         - R: Out of 211 non music explorers, 132 respondents.
-    - How many respondents that don't explore new music have answered that music has no effects or worsen their mental health
+    - How many respondents that don't explore new music have answered that music has no effects or worsen their mental health?
         - R: Out of 211 non music explorers, 79 respondents.

@@ -123,7 +123,7 @@ select
    sum(case when ocd >= 7 and ocd <= 10 Then 1 Else 0 end) as count_high_ocd
 from music_mental_health;
 
-/* 7.1 How many respondents experienced all the mentioned mental health issue (>= 3)? */
+/* 7.1 ADDITIONAL: How many respondents experienced all the mentioned mental health issue (>= 3)? */
 select count(*) as count_affected_respondents from music_mental_health
 where anxiety >= 3 and depression >= 3 and insomnia >= 3 and ocd >= 3;
 
