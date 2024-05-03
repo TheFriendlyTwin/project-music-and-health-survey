@@ -117,16 +117,19 @@ This file contains the list of querries performed to answer questions regarding 
 
 **16. Write a querry that includes:** 
     
-    - **How many respondents who play an instrument have answered that music has improve their mental health?**
+    - How many respondents who play an instrument have answered that music has improve their mental health?
         
         - R: Out of 235 instrumentalists, 188 respondents.
-    - **How many respondents who play an instrument have answered that music has no effects or worsen their mental health?**
+
+    - How many respondents who play an instrument have answered that music has no effects or worsen their mental health?
        
         - R: Out of 235 instrumentalists, 47 respondents.
-    - **How many respondents that don't play an instrument have answered that music has improve their mental health?**
+
+    - How many respondents that don't play an instrument have answered that music has improve their mental health?
        
         - R: Out of 500 non instrumentalists, 353 respondents.
-    - **How many respondents that don't play an instrument have answered that music has no effects or worsen their mental health?**
+
+    - How many respondents that don't play an instrument have answered that music has no effects or worsen their mental health?
        
         - R: Out of 500 non instrumentalists, 147 respondents.
 
@@ -134,19 +137,19 @@ This file contains the list of querries performed to answer questions regarding 
 
 **17. Write a querry that includes:** 
     
-    - **How many respondents who compose have answered that music has improve their mental health?**
-       
+    - How many respondents who compose have answered that music has improve their mental health?
+    
         - R: Out of 126 composers, 104 respondents.
    
-    - **How many respondents who compose have answered that music has no effects or worsen their mental health?**
+    - How many respondents who compose have answered that music has no effects or worsen their mental health?
        
         - R: Out of 126 composers, 22 respondents.
    
-    - **How many respondents that don't compose have answered that music has improve their mental health?**
+    - How many respondents that don't compose have answered that music has improve their mental health?
         
         - R: Out of 609 non composers, 437 respondents.
     
-    - **How many respondents that don't compose have answered that music has no effects or worsen their mental health?**
+    - How many respondents that don't compose have answered that music has no effects or worsen their mental health?
         
         - R: Out of 609 non composers, 172 respondents.
 
@@ -154,18 +157,18 @@ This file contains the list of querries performed to answer questions regarding 
 
 **18. Write a querry that includes:** 
    
-    - **How many respondents who explore new music have answered that music has improve their mental health?**
+    - How many respondents who explore new music have answered that music has improve their mental health?
        
         - R: Out of 524 music explorers, 409 respondents.
    
-    - **How many respondents who explore new music have answered that music has no effects or worsen their mental health?**
+    - How many respondents who explore new music have answered that music has no effects or worsen their mental health?
        
         - R: Out of 524 music explorers, 115 respondents.
     
-    - **How many respondents that don't explore new music have answered that music has improve their mental health?**
+    - How many respondents that don't explore new music have answered that music has improve their mental health?
        
         - R: Out of 211 non music explorers, 132 respondents.
-   
-    - **How many respondents that don't explore new music have answered that music has no effects or worsen their mental health?**
+
+    - How many respondents that don't explore new music have answered that music has no effects or worsen their mental health?
        
         - R: Out of 211 non music explorers, 79 respondents.
