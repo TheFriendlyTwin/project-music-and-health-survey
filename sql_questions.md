@@ -172,3 +172,38 @@ This file contains the list of querries performed to answer questions regarding 
     - How many respondents that don't explore new music have answered that music has no effects or worsen their mental health?
        
         - R: Out of 211 non music explorers, 79 respondents.
+
+------------------------------------------------------------------------------------------------------------------------------------
+**19. Which favorite music genre has the highest number of respondents who suffer from severe anxiety VS the lowest?**
+    - R: Rock music holds the highest number of respondents with severe anxiety and Gospel and Latin music holds the lowest.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+**20. Which favorite music genre has the highest number of respondents who are highly depressed VS the lowest?**
+    - R: Rock music holds the highest number of respondents highly depressed and Gospel music holds the lowest.
+
+------------------------------------------------------------------------------------------------------------------------------------
+**21. Which favorite music genre has the highest number of respondents who suffer frequently from insomnia VS the lowest?**
+    - R: Rock music holds the highest number of respondents who suffer frequently from insomnia and Latin music holds the lowest.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+**22. Which favorite music genre has the highest number of respondents who suffer frequently from OCD VS the lowest?**
+    - R: Rock music holds the highest number of respondents who suffer frequently from OCD and Jazz music holds the lowest.
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+**23. Which frequently (Very Frequently or Sometimes) listen to music genre has the highest number of respondents who suffer from severe anxiety VS the lowest?**
+    - R: Rock music holds the highest number of respondents with severe anxiety and Gospel music holds the lowest.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+**24. Which frequently (Very Frequently or Sometimes) listen to music genre has the highest number of respondents who are highly depressed VS the lowest?**
+    - R: Rock music holds the highest number of respondents highly depressed and Gospel music holds the lowest.
+
+------------------------------------------------------------------------------------------------------------------------------------
+**25. Which frequently (Very Frequently or Sometimes) listen to music genre has the highest number of respondents who suffer frequently from insomnia VS the lowest?**
+    - R: Rock music holds the highest number of respondents who suffer frequently from insomnia and Gospel music holds the lowest.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+**26. Which Which frequently (Very Frequently or Sometimes) listen to music genre has the highest number of respondents who suffer frequently from OCD VS the lowest?**
+    - R: Rock music holds the highest number of respondents who suffer frequently from OCD and Gospel music holds the lowest.

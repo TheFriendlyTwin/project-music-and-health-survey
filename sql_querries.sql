@@ -187,7 +187,7 @@ select
     sum(case when instrumentalist = 'No' and (music_effects like '%No effect%' or music_effects like '%Worsen%') Then 1 Else 0 end) as count_non_instrumentalist_worsen
 from music_mental_health;
 
-/* Write a querry that includes:
+/* 17. Write a querry that includes:
 - How many respondents who compose have answered that music has improve their mental health
 - How many respondents who compose have answered that music has no effects or worsen their mental health
 - How many respondents that don't compose have answered that music has improve their mental health
@@ -199,7 +199,7 @@ select
     sum(case when composer = 'No' and (music_effects like '%No effect%' or music_effects like '%Worsen%') Then 1 Else 0 end) as count_non_composer_worsen
 from music_mental_health;
 
-/* Write a querry that includes:
+/* 18. Write a querry that includes:
 - How many respondents who explore new music have answered that music has improve their mental health
 - How many respondents who explore new music have answered that music has no effects or worsen their mental health
 - How many respondents that don't explore new music have answered that music has improve their mental health
@@ -210,3 +210,733 @@ select
     sum(case when exploratory = 'No' and music_effects like '%Improve%' Then 1 Else 0 end) as count_non_explorer_improve,
     sum(case when exploratory = 'No' and (music_effects like '%No effect%' or music_effects like '%Worsen%') Then 1 Else 0 end) as count_non_explorer_worsen
 from music_mental_health;
+
+/* 19. Which favorite music genre has the highest number of respondents who suffer from severe anxiety VS the lowest?*/
+
+-- First step: count respondents per fav_genre that suffer from severe anxiety 
+select fav_genre, count(*) as count_respondents_highly_anxious
+from music_mental_health
+where anxiety between 7 and 10
+group by fav_genre
+order by count_respondents_highly_anxious desc;
+
+-- Second step: select only the first and last rows from the previous querry
+with ranked_genres as (
+  select
+    fav_genre,
+    count(*) as count_respondents_highly_anxious,
+    rank() over (order by count(*) desc) as max_rank,
+    rank() over (order by count(*) asc) as min_rank
+  from music_mental_health
+  where anxiety between 7 and 10
+  group by fav_genre
+)
+select fav_genre, count_respondents_highly_anxious
+from ranked_genres
+where max_rank = 1 or min_rank = 1;
+
+/* 20. Which favorite music genre has the highest number of respondents who are highly depressed VS the lowest?*/
+
+-- First step: count respondents per fav_genre that are highly depressed
+select fav_genre, count(*) as count_respondents_highly_depressed
+from music_mental_health
+where depression between 7 and 10
+group by fav_genre
+order by count_respondents_highly_depressed desc;
+
+-- Second step: select only the first and last rows from the previous querry
+with ranked_genres as (
+  select
+    fav_genre,
+    count(*) as count_respondents_highly_depressed,
+    rank() over (order by count(*) desc) as max_rank,
+    rank() over (order by count(*) asc) as min_rank
+  from music_mental_health
+  where depression between 7 and 10
+  group by fav_genre
+)
+select fav_genre, count_respondents_highly_depressed
+from ranked_genres
+where max_rank = 1 or min_rank = 1;
+
+/* 21. Which favorite music genre has the highest number of respondents who suffer frequently from insomnia VS the lowest?*/
+
+-- First step: count respondents per fav_genre who suffer frequently from insomnia
+select fav_genre, count(*) as count_respondents_high_insomnia
+from music_mental_health
+where insomnia between 7 and 10
+group by fav_genre
+order by count_respondents_high_insomnia desc;
+
+-- Second step: select only the first and last rows from the previous querry
+with ranked_genres as (
+  select
+    fav_genre,
+    count(*) as count_respondents_high_insomnia,
+    rank() over (order by count(*) desc) as max_rank,
+    rank() over (order by count(*) asc) as min_rank
+  from music_mental_health
+  where insomnia between 7 and 10
+  group by fav_genre
+)
+select fav_genre, count_respondents_high_insomnia
+from ranked_genres
+where max_rank = 1 or min_rank = 1;
+
+
+/* 22. Which favorite music genre has the highest number of respondents who suffer frequently from OCD VS the lowest?*/
+
+-- First step: count respondents per fav_genre who suffer frequently from insomnia
+select fav_genre, count(*) as count_respondents_high_ocd
+from music_mental_health
+where ocd between 7 and 10
+group by fav_genre
+order by count_respondents_high_ocd desc;
+
+-- Second step: select only the first and last rows from the previous querry
+with ranked_genres as (
+  select
+    fav_genre,
+    count(*) as count_respondents_high_ocd,
+    rank() over (order by count(*) desc) as max_rank,
+    rank() over (order by count(*) asc) as min_rank
+  from music_mental_health
+  where ocd between 7 and 10
+  group by fav_genre
+)
+select fav_genre, count_respondents_high_ocd
+from ranked_genres
+where max_rank = 1 or min_rank = 1;
+
+
+/* 23. Which frequently (Very Frequently or Sometimes) listen to music genre has the highest number of respondents who suffer from severe anxiety VS the lowest?*/
+    
+-- First step: Convert to Row-wise Data
+select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end) as count_anxious
+from music_mental_health
+union all
+select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end) 
+from music_mental_health
+union all 
+select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+from music_mental_health;
+
+-- Second step: Find Max and Min
+(select genre, count_anxious
+from (
+    select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end) as count_anxious
+	from music_mental_health
+	union all
+	select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end) 
+	from music_mental_health
+	union all 
+	select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+) as counts
+order by count_anxious DESC
+limit 1)
+union all
+(select genre, count_anxious
+FROM (
+    select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end) as count_anxious
+	from music_mental_health
+	union all
+	select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end) 
+	from music_mental_health
+	union all 
+	select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and anxiety between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+) as counts
+order by count_anxious ASC
+limit 1);
+
+/*24. Which frequently (Very Frequently or Sometimes) listen to music genre has the highest number of respondents who are highly depressed VS the lowest?*/
+
+-- First step: Convert to Row-wise Data
+select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end) as count_depressed
+from music_mental_health
+union all
+select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end) 
+from music_mental_health
+union all 
+select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+from music_mental_health;
+
+-- Second step: Find Max and Min
+(select genre, count_depressed
+from (
+    select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end) as count_depressed
+	from music_mental_health
+	union all
+	select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end) 
+	from music_mental_health
+	union all 
+	select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+) as counts
+order by count_depressed DESC
+limit 1)
+union all
+(select genre, count_depressed
+FROM (
+    select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end) as count_depressed
+	from music_mental_health
+	union all
+	select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end) 
+	from music_mental_health
+	union all 
+	select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and depression between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+) as counts
+order by count_depressed ASC
+limit 1);
+
+/* 25. Which frequently (Very Frequently or Sometimes) listen to music genre has the highest number of respondents who suffer frequently from insomnia VS the lowest?*/
+
+-- First step: Convert to Row-wise Data
+select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end) as count_insomnia
+from music_mental_health
+union all
+select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end) 
+from music_mental_health
+union all 
+select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+from music_mental_health;
+
+-- Second step: Find Max and Min
+(select genre, count_insomnia
+from (
+    select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end) as count_insomnia
+	from music_mental_health
+	union all
+	select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end) 
+	from music_mental_health
+	union all 
+	select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+) as counts
+order by count_insomnia DESC
+limit 1)
+union all
+(select genre, count_insomnia
+FROM (
+    select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end) as count_insomnia
+	from music_mental_health
+	union all
+	select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end) 
+	from music_mental_health
+	union all 
+	select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and insomnia between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+) as counts
+order by count_insomnia ASC
+limit 1);
+
+/* 26. Which Which frequently (Very Frequently or Sometimes) listen to music genre has the highest number of respondents who suffer frequently from OCD VS the lowest?*/
+
+-- First step: Convert to Row-wise Data
+select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end) as count_ocd
+from music_mental_health
+union all
+select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end) 
+from music_mental_health
+union all 
+select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all
+select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health
+union all 
+select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+from music_mental_health;
+
+-- Second step: Find Max and Min
+(select genre, count_ocd
+from (
+    select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end) as count_ocd
+	from music_mental_health
+	union all
+	select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end) 
+	from music_mental_health
+	union all 
+	select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+) as counts
+order by count_ocd DESC
+limit 1)
+union all
+(select genre, count_ocd
+FROM (
+    select 'Classical' as genre, sum(case when freq_classical like "%Very Frequently%" or freq_classical like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end) as count_ocd
+	from music_mental_health
+	union all
+	select 'Country' as genre, sum(case when freq_country like "%Very Frequently%" or freq_country like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'EDM' as genre, sum(case when freq_edm like "%Very Frequently%" or freq_edm like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end) 
+	from music_mental_health
+	union all 
+	select 'Folk', sum(case when freq_folk like "%Very Frequently%" or freq_folk like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select  'Gospel', sum(case when freq_gospel like "%Very Frequently%" or freq_gospel like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Hip-Hop', sum(case when freq_hip_hop like "%Very Frequently%" or freq_hip_hop like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Jazz', sum(case when freq_jazz like "%Very Frequently%" or freq_jazz like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'K-Pop', sum(case when freq_k_pop like "%Very Frequently%" or freq_k_pop like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Latin', sum(case when freq_latin like "%Very Frequently%" or freq_latin like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Lofi', sum(case when freq_lofi like "%Very Frequently%" or freq_lofi like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Metal', sum(case when freq_metal like "%Very Frequently%" or freq_metal like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Pop', sum(case when freq_pop like "%Very Frequently%" or freq_pop like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'R&B', sum(case when `freq_r&b` like "%Very Frequently%" or `freq_r&b` like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rap', sum(case when freq_rap like "%Very Frequently%" or freq_rap like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all
+	select 'Rock', sum(case when freq_rock like "%Very Frequently%" or freq_rock like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+	union all 
+	select 'Video Game Music', sum(case when freq_video_game_music like "%Very Frequently%" or freq_video_game_music like "%Sometimes%" and ocd between 7 and 10 then 1 else 0 end)
+	from music_mental_health
+) as counts
+order by count_ocd ASC
+limit 1);
