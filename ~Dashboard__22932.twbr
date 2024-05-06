@@ -6,8 +6,6 @@
     <_.fcp.AccessibleZoneTabOrder.true...AccessibleZoneTabOrder />
     <_.fcp.AnimationOnByDefault.true...AnimationOnByDefault />
     <AutoCreateAndUpdateDSDPhoneLayouts />
-    <IntuitiveSorting />
-    <IntuitiveSorting_SP2 />
     <_.fcp.MarkAnimation.true...MarkAnimation />
     <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
     <_.fcp.ObjectModelExtractV2.true...ObjectModelExtractV2 />
@@ -594,6 +592,9 @@
           </bin>
         </calculation>
       </column>
+      <column caption='Musician' datatype='string' name='[Calculation_1613696056701267970]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='if [composer] = &apos;Yes&apos; or [instrumentalist] = &apos;Yes&apos; then &apos;Yes&apos; else &apos;No&apos; end' />
+      </column>
       <column caption='Depression Levels' datatype='string' name='[Depression (grupo)]' role='dimension' type='nominal'>
         <calculation class='categorical-bin' column='[depression]' new-bin='true'>
           <bin default-name='false' value='&quot;High&quot;'>
@@ -704,11 +705,17 @@
       <column caption='Ocd' datatype='integer' name='[ocd]' role='measure' type='quantitative' />
       <column caption='Primary Streaming Service' datatype='string' name='[primary_streaming_service]' role='dimension' type='nominal' />
       <column caption='While Working' datatype='string' name='[while_working]' role='dimension' type='nominal' />
+      <column-instance column='[Calculation_1613696056701267970]' derivation='None' name='[none:Calculation_1613696056701267970:nk]' pivot='key' type='nominal' />
       <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
       <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
       <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
       <column-instance column='[music_effects]' derivation='None' name='[none:music_effects:nk]' pivot='key' type='nominal' />
       <column-instance column='[primary_streaming_service]' derivation='None' name='[none:primary_streaming_service:nk]' pivot='key' type='nominal' />
+      <group caption='Ação (Composer)' hidden='true' name='[Action (Composer)]' name-style='unqualified' user:auto-column='sheet_link'>
+        <groupfilter function='crossjoin'>
+          <groupfilter function='level-members' level='[composer]' />
+        </groupfilter>
+      </group>
       <group caption='Ação (Exploratory)' hidden='true' name='[Action (Exploratory)]' name-style='unqualified' user:auto-column='sheet_link'>
         <groupfilter function='crossjoin'>
           <groupfilter function='level-members' level='[exploratory]' />
@@ -720,7 +727,7 @@
         </groupfilter>
       </group>
       <extract _.fcp.ObjectModelExtractV2.true...object-id='' _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='true' units='records'>
-        <connection access_mode='readonly' author-locale='pt_BR' class='hyper' dbname='C:/Users/mafal/AppData/Local/Temp/TableauTemp/#TableauTemp_1k195gg1aiephv15ng2cg09pi1iq.hyper' default-settings='hyper' schema='Extract' sslmode='' tablename='Extract' update-time='05/05/2024 05:43:38 PM' username='tableau_internal_user'>
+        <connection access_mode='readonly' author-locale='pt_BR' class='hyper' dbname='C:/Users/mafal/AppData/Local/Temp/TableauTemp/#TableauTemp_0r8x1ev0d1txhr16043vm1odprsq.hyper' default-settings='hyper' schema='Extract' sslmode='' tablename='Extract' update-time='05/05/2024 11:02:16 PM' username='tableau_internal_user'>
           <_.fcp.ObjectModelEncapsulateLegacy.false...relation name='Extract' table='[Extract].[Extract]' type='table' />
           <_.fcp.ObjectModelEncapsulateLegacy.true...relation name='Extract' table='[Extract].[Extract]' type='table' />
           <metadata-records>
@@ -1207,32 +1214,32 @@
               <bucket>&quot;No effect&quot;</bucket>
             </map>
           </encoding>
-          <encoding attr='color' field='[Depression (grupo)]' palette='gray_10_0' type='palette'>
-            <map to='#49525e'>
+          <encoding attr='color' field='[Depression (grupo)]' palette='blue_teal_10_0' type='palette'>
+            <map to='#2c5985'>
               <bucket>&quot;High&quot;</bucket>
             </map>
-            <map to='#889296'>
+            <map to='#45a2b9'>
               <bucket>&quot;Medium&quot;</bucket>
             </map>
-            <map to='#d5d5d5'>
+            <map to='#bce4d8'>
               <bucket>&quot;Low&quot;</bucket>
             </map>
           </encoding>
           <encoding attr='color' field='[none:primary_streaming_service:nk]' type='palette'>
+            <map to='#85ca77'>
+              <bucket>&quot;Spotify&quot;</bucket>
+            </map>
             <map to='#afd6ed'>
               <bucket>&quot;Apple Music&quot;</bucket>
             </map>
-            <map to='#b3e0a6'>
-              <bucket>&quot;Spotify&quot;</bucket>
+            <map to='#b07aa1'>
+              <bucket>&quot;Other&quot;</bucket>
             </map>
             <map to='#cdcecd'>
               <bucket>&quot;Pandora&quot;</bucket>
             </map>
-            <map to='#e13b42'>
+            <map to='#e74545'>
               <bucket>&quot;YouTube Music&quot;</bucket>
-            </map>
-            <map to='#ecd2a8'>
-              <bucket>&quot;Other&quot;</bucket>
             </map>
           </encoding>
           <encoding attr='color' field='[none:instrumentalist:nk]' type='palette'>
@@ -1243,45 +1250,53 @@
               <bucket>&quot;No&quot;</bucket>
             </map>
           </encoding>
-          <encoding attr='color' field='[none:exploratory:nk]' type='palette'>
-            <map to='#24693d'>
-              <bucket>&quot;No&quot;</bucket>
-            </map>
-            <map to='#b3e0a6'>
+          <encoding attr='color' field='[none:exploratory:nk]' palette='green_gold_10_0' type='palette'>
+            <map to='#84b457'>
               <bucket>&quot;Yes&quot;</bucket>
             </map>
+            <map to='#f4d166'>
+              <bucket>&quot;No&quot;</bucket>
+            </map>
           </encoding>
-          <encoding attr='color' field='[Ocd Levels]' palette='blue_10_0' type='palette'>
-            <map to='#2a5783'>
+          <encoding attr='color' field='[Ocd Levels]' palette='red_10_0' type='palette'>
+            <map to='#ae123a'>
               <bucket>&quot;High&quot;</bucket>
             </map>
-            <map to='#6798c1'>
+            <map to='#f26250'>
               <bucket>&quot;Medium&quot;</bucket>
             </map>
-            <map to='#b9ddf1'>
+            <map to='#ffbeb2'>
               <bucket>&quot;Low&quot;</bucket>
             </map>
           </encoding>
-          <encoding attr='color' field='[Insomnia Levels]' palette='gray_warm_10_0' type='palette'>
-            <map to='#59504e'>
-              <bucket>&quot;Medium&quot;</bucket>
-            </map>
-            <map to='#98908c'>
+          <encoding attr='color' field='[Insomnia Levels]' palette='purple_10_0' type='palette'>
+            <map to='#7c4d79'>
               <bucket>&quot;High&quot;</bucket>
             </map>
-            <map to='#dcd4d0'>
+            <map to='#bc86a9'>
+              <bucket>&quot;Medium&quot;</bucket>
+            </map>
+            <map to='#eec9e5'>
               <bucket>&quot;Low&quot;</bucket>
             </map>
           </encoding>
-          <encoding attr='color' field='[Anxiety Levels]' palette='brown_10_0' type='palette'>
-            <map to='#9f3632'>
+          <encoding attr='color' field='[Anxiety Levels]' palette='red_gold_10_0' type='palette'>
+            <map to='#b71d3e'>
               <bucket>&quot;High&quot;</bucket>
             </map>
-            <map to='#d18954'>
+            <map to='#ee734a'>
               <bucket>&quot;Medium&quot;</bucket>
             </map>
-            <map to='#eedbbd'>
+            <map to='#f4d166'>
               <bucket>&quot;Low&quot;</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[none:Calculation_1613696056701267970:nk]' palette='tableau20_10_0' type='palette'>
+            <map to='#bab0ac'>
+              <bucket>&quot;No&quot;</bucket>
+            </map>
+            <map to='#d4a6c8'>
+              <bucket>&quot;Yes&quot;</bucket>
             </map>
           </encoding>
         </style-rule>
@@ -1289,6 +1304,49 @@
       <semantic-values>
         <semantic-value key='[Country].[Name]' value='&quot;PT&quot;' />
       </semantic-values>
+      <field-sort-info field-sort-order-type='custom-order'>
+        <field-sort-custom-order field='age' />
+        <field-sort-custom-order field='primary_streaming_service' />
+        <field-sort-custom-order field='hours_per_day' />
+        <field-sort-custom-order field='while_working' />
+        <field-sort-custom-order field='instrumentalist' />
+        <field-sort-custom-order field='composer' />
+        <field-sort-custom-order field='Calculation_1613696056701267970' />
+        <field-sort-custom-order field='fav_genre' />
+        <field-sort-custom-order field='exploratory' />
+        <field-sort-custom-order field='foreign_languages' />
+        <field-sort-custom-order field='bpm' />
+        <field-sort-custom-order field='freq_classical' />
+        <field-sort-custom-order field='freq_country' />
+        <field-sort-custom-order field='freq_edm' />
+        <field-sort-custom-order field='freq_folk' />
+        <field-sort-custom-order field='freq_gospel' />
+        <field-sort-custom-order field='freq_hip_hop' />
+        <field-sort-custom-order field='freq_jazz' />
+        <field-sort-custom-order field='freq_k_pop' />
+        <field-sort-custom-order field='freq_latin' />
+        <field-sort-custom-order field='freq_lofi' />
+        <field-sort-custom-order field='freq_metal' />
+        <field-sort-custom-order field='freq_pop' />
+        <field-sort-custom-order field='freq_r&amp;b' />
+        <field-sort-custom-order field='freq_rap' />
+        <field-sort-custom-order field='freq_rock' />
+        <field-sort-custom-order field='freq_video_game_music' />
+        <field-sort-custom-order field='anxiety' />
+        <field-sort-custom-order field='depression' />
+        <field-sort-custom-order field='insomnia' />
+        <field-sort-custom-order field='ocd' />
+        <field-sort-custom-order field='music_effects' />
+        <field-sort-custom-order field='Anxiety Levels' />
+        <field-sort-custom-order field='Depression (grupo)' />
+        <field-sort-custom-order field='Insomnia Levels' />
+        <field-sort-custom-order field='Ocd Levels' />
+        <field-sort-custom-order field='Geometry (generated)' />
+        <field-sort-custom-order field='Latitude (generated)' />
+        <field-sort-custom-order field='Longitude (generated)' />
+        <field-sort-custom-order field=':Measure Names' />
+        <field-sort-custom-order field='Multiple Values' />
+      </field-sort-info>
       <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
         <objects>
           <object caption='survey_results_cleaned.csv' id='survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C'>
@@ -1343,36 +1401,11 @@
         <datasource caption='survey_results_cleaned' name='federated.1800dk914a3c711dvt3q606z8y59' />
       </datasources>
       <datasource-dependencies datasource='federated.1800dk914a3c711dvt3q606z8y59'>
-        <column caption='Composer' datatype='string' name='[composer]' role='dimension' type='nominal'>
-          <aliases>
-            <alias key='&quot;No&quot;' value='Non Composer' />
-            <alias key='&quot;Yes&quot;' value='Composer' />
-          </aliases>
-        </column>
-        <column caption='Exploratory' datatype='string' name='[exploratory]' role='dimension' type='nominal'>
-          <aliases>
-            <alias key='&quot;No&quot;' value='Non Music Explorer' />
-            <alias key='&quot;Yes&quot;' value='Music Explorer' />
-          </aliases>
-        </column>
-        <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
-          <aliases>
-            <alias key='&quot;No&quot;' value='Non Instrumentalist' />
-            <alias key='&quot;Yes&quot;' value='Instrumentalist' />
-          </aliases>
-        </column>
-        <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
-        <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
-        <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
+        <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
+        <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
       </datasource-dependencies>
-      <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]'>
-        <groupfilter function='level-members' level='[none:composer:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-      </filter>
-      <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]'>
-        <groupfilter function='level-members' level='[none:exploratory:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-      </filter>
-      <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]'>
-        <groupfilter function='level-members' level='[none:instrumentalist:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+      <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]'>
+        <groupfilter function='level-members' level='[none:fav_genre:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
       </filter>
     </shared-view>
   </shared-views>
@@ -1393,7 +1426,7 @@
         <param name='target' value='Music Explorer' />
       </command>
     </action>
-    <action caption='Filtro 1 (gerado)' name='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]'>
+    <action caption='Filtro 4 (gerado)' name='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]'>
       <activation auto-clear='true' type='on-select' />
       <source dashboard='Dashboard' type='sheet' worksheet='Instrumentalist' />
       <command command='tsc:tsl-filter'>
@@ -1401,7 +1434,7 @@
         <param name='target' value='Dashboard' />
       </command>
     </action>
-    <action caption='Filtro 2 (gerado)' name='[Action4_4A3083E9F4DB44F69A16051A2F09230D]'>
+    <action caption='Filtro 5 (gerado)' name='[Action7_C5C796DE7E91465CAB266A420D28144B]'>
       <activation auto-clear='true' type='on-select' />
       <source dashboard='Dashboard' type='sheet' worksheet='Composer' />
       <command command='tsc:tsl-filter'>
@@ -1409,7 +1442,7 @@
         <param name='target' value='Dashboard' />
       </command>
     </action>
-    <action caption='Filtro 3 (gerado)' name='[Action5_22F2A2E884964682916F55026F0A201E]'>
+    <action caption='Filtro 6 (gerado)' name='[Action8_3CB45DD5E6344C11AD287DC1547BEFBE]'>
       <activation auto-clear='true' type='on-select' />
       <source dashboard='Dashboard' type='sheet' worksheet='Music Explorer' />
       <command command='tsc:tsl-filter'>
@@ -1478,11 +1511,11 @@
             <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
             <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]'>
-            <groupfilter function='level-members' level='[exploratory]' user:ui-action-filter='[Action5_22F2A2E884964682916F55026F0A201E]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_C5C796DE7E91465CAB266A420D28144B]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
-            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <manual-sort column='[federated.1800dk914a3c711dvt3q606z8y59].[Anxiety Levels]' direction='ASC'>
             <dictionary>
@@ -1491,16 +1524,25 @@
               <bucket>&quot;High&quot;</bucket>
             </dictionary>
           </manual-sort>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]'>
-            <groupfilter function='level-members' level='[none:fav_genre:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]'>
+            <groupfilter function='level-members' level='[none:composer:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]'>
+            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[none:exploratory:nk]' />
+              <groupfilter function='member' level='[none:exploratory:nk]' member='%null%' />
+            </groupfilter>
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]'>
+            <groupfilter function='level-members' level='[none:instrumentalist:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <slices>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -1511,6 +1553,17 @@
           <style-rule element='cell'>
             <format attr='width' field='[federated.1800dk914a3c711dvt3q606z8y59].[Anxiety Levels]' value='85' />
             <format attr='text-format' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='p0%' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[Anxiety Levels]' value='#ffffff' />
+          </style-rule>
+          <style-rule element='field-labels'>
+            <format attr='color' value='#ffffff' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='#ffffff' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[Anxiety Levels]' value='#ffffff' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
           </style-rule>
         </style>
         <panes>
@@ -1556,12 +1609,7 @@
                 <alias key='&quot;Yes&quot;' value='Composer' />
               </aliases>
             </column>
-            <column caption='Exploratory' datatype='string' name='[exploratory]' role='dimension' type='nominal'>
-              <aliases>
-                <alias key='&quot;No&quot;' value='Non Music Explorer' />
-                <alias key='&quot;Yes&quot;' value='Music Explorer' />
-              </aliases>
-            </column>
+            <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
             <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
               <aliases>
                 <alias key='&quot;No&quot;' value='Non Instrumentalist' />
@@ -1569,25 +1617,31 @@
               </aliases>
             </column>
             <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
-            <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
-            <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
+            <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]'>
-            <groupfilter function='level-members' level='[exploratory]' user:ui-action-filter='[Action5_22F2A2E884964682916F55026F0A201E]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-          </filter>
           <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
-            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <slices>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]</column>
           </slices>
           <aggregation value='true' />
         </view>
         <style>
+          <style-rule element='cell'>
+            <format attr='font-size' data-class='subtotal' scope='rows' value='8' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='font-size' scope='rows' value='8' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+          <style-rule element='legend'>
+            <format attr='font-size' value='8' />
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
           <style-rule element='legend-title'>
             <format attr='text-align' value='left' />
           </style-rule>
@@ -1676,11 +1730,11 @@
             <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
             <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]'>
-            <groupfilter function='level-members' level='[exploratory]' user:ui-action-filter='[Action5_22F2A2E884964682916F55026F0A201E]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_C5C796DE7E91465CAB266A420D28144B]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
-            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <manual-sort column='[federated.1800dk914a3c711dvt3q606z8y59].[Depression (grupo)]' direction='ASC'>
             <dictionary>
@@ -1689,16 +1743,25 @@
               <bucket>&quot;High&quot;</bucket>
             </dictionary>
           </manual-sort>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]'>
-            <groupfilter function='level-members' level='[none:fav_genre:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]'>
+            <groupfilter function='level-members' level='[none:composer:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]'>
+            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[none:exploratory:nk]' />
+              <groupfilter function='member' level='[none:exploratory:nk]' member='%null%' />
+            </groupfilter>
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]'>
+            <groupfilter function='level-members' level='[none:instrumentalist:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <slices>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -1709,6 +1772,16 @@
           <style-rule element='cell'>
             <format attr='width' field='[federated.1800dk914a3c711dvt3q606z8y59].[Depression (grupo)]' value='92' />
             <format attr='text-format' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='p0%' />
+          </style-rule>
+          <style-rule element='field-labels'>
+            <format attr='color' value='#ffffff' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='#ffffff' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[Depression (grupo)]' value='#ffffff' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
           </style-rule>
         </style>
         <panes>
@@ -1737,6 +1810,277 @@
         <cols>[federated.1800dk914a3c711dvt3q606z8y59].[Depression (grupo)]</cols>
       </table>
       <simple-id uuid='{5F43108F-6575-4029-A103-0787E3525704}' />
+    </worksheet>
+    <worksheet name='Hours per day per Explorer VS non Explorer'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='survey_results_cleaned' name='federated.1800dk914a3c711dvt3q606z8y59' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1800dk914a3c711dvt3q606z8y59'>
+            <column-instance column='[hours_per_day]' derivation='Avg' name='[avg:hours_per_day:qk]' pivot='key' type='quantitative' />
+            <column caption='Composer' datatype='string' name='[composer]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;No&quot;' value='Non Composer' />
+                <alias key='&quot;Yes&quot;' value='Composer' />
+              </aliases>
+            </column>
+            <column caption='Exploratory' datatype='string' name='[exploratory]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;No&quot;' value='Non Music Explorer' />
+                <alias key='&quot;Yes&quot;' value='Music Explorer' />
+              </aliases>
+            </column>
+            <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
+            <column caption='Hours Per Day' datatype='integer' name='[hours_per_day]' role='dimension' type='quantitative' />
+            <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;No&quot;' value='Non Instrumentalist' />
+                <alias key='&quot;Yes&quot;' value='Instrumentalist' />
+              </aliases>
+            </column>
+            <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
+            <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_C5C796DE7E91465CAB266A420D28144B]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='text-format' field='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' value='n#,##0.0;-#,##0.0' />
+          </style-rule>
+          <style-rule element='field-labels'>
+            <format attr='color' value='#ffffff' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' value='#ffffff' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' value='#ffffff' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' />
+              <text column='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</rows>
+        <cols>[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]</cols>
+      </table>
+      <simple-id uuid='{0DFCF99A-1381-4C4A-804A-B74902FAA528}' />
+    </worksheet>
+    <worksheet name='Hours per day per Music Effect'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='survey_results_cleaned' name='federated.1800dk914a3c711dvt3q606z8y59' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1800dk914a3c711dvt3q606z8y59'>
+            <column-instance column='[hours_per_day]' derivation='Avg' name='[avg:hours_per_day:qk]' pivot='key' type='quantitative' />
+            <column caption='Composer' datatype='string' name='[composer]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;No&quot;' value='Non Composer' />
+                <alias key='&quot;Yes&quot;' value='Composer' />
+              </aliases>
+            </column>
+            <column caption='Exploratory' datatype='string' name='[exploratory]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;No&quot;' value='Non Music Explorer' />
+                <alias key='&quot;Yes&quot;' value='Music Explorer' />
+              </aliases>
+            </column>
+            <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
+            <column caption='Hours Per Day' datatype='integer' name='[hours_per_day]' role='dimension' type='quantitative' />
+            <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;No&quot;' value='Non Instrumentalist' />
+                <alias key='&quot;Yes&quot;' value='Instrumentalist' />
+              </aliases>
+            </column>
+            <column caption='Music Effects' datatype='string' name='[music_effects]' role='dimension' type='nominal' />
+            <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
+            <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
+            <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
+            <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
+            <column-instance column='[music_effects]' derivation='None' name='[none:music_effects:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_C5C796DE7E91465CAB266A420D28144B]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]'>
+            <groupfilter function='level-members' level='[none:composer:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]'>
+            <groupfilter function='level-members' level='[none:exploratory:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]'>
+            <groupfilter function='level-members' level='[none:instrumentalist:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='text-format' field='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' value='n#,##0.0;-#,##0.0' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' value='#ffffff' />
+            <format attr='height' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' value='24' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='width' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' value='120' />
+          </style-rule>
+          <style-rule element='field-labels'>
+            <format attr='color' value='#ffffff' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' value='#ffffff' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' value='#ffffff' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+          <style-rule element='quick-filter'>
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' />
+              <text column='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]</rows>
+        <cols>[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]</cols>
+      </table>
+      <simple-id uuid='{FDC19F66-81E6-4FE2-BEE8-F366C9BBB4C4}' />
+    </worksheet>
+    <worksheet lock-quick-filters='true' name='Hours per day per musicias VS non musicians'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='survey_results_cleaned' name='federated.1800dk914a3c711dvt3q606z8y59' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1800dk914a3c711dvt3q606z8y59'>
+            <column caption='Musician' datatype='string' name='[Calculation_1613696056701267970]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='if [composer] = &apos;Yes&apos; or [instrumentalist] = &apos;Yes&apos; then &apos;Yes&apos; else &apos;No&apos; end' />
+            </column>
+            <column-instance column='[hours_per_day]' derivation='Avg' name='[avg:hours_per_day:qk]' pivot='key' type='quantitative' />
+            <column caption='Composer' datatype='string' name='[composer]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;No&quot;' value='Non Composer' />
+                <alias key='&quot;Yes&quot;' value='Composer' />
+              </aliases>
+            </column>
+            <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
+            <column caption='Hours Per Day' datatype='integer' name='[hours_per_day]' role='dimension' type='quantitative' />
+            <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;No&quot;' value='Non Instrumentalist' />
+                <alias key='&quot;Yes&quot;' value='Instrumentalist' />
+              </aliases>
+            </column>
+            <column-instance column='[Calculation_1613696056701267970]' derivation='None' name='[none:Calculation_1613696056701267970:nk]' pivot='key' type='nominal' />
+            <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_C5C796DE7E91465CAB266A420D28144B]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='text-format' field='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' value='n#,##0.0;-#,##0.0' />
+            <format attr='height' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:Calculation_1613696056701267970:nk]' value='28' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='width' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:Calculation_1613696056701267970:nk]' value='92' />
+          </style-rule>
+          <style-rule element='field-labels'>
+            <format attr='color' value='#ffffff' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:Calculation_1613696056701267970:nk]' value='#ffffff' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' value='#ffffff' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.1800dk914a3c711dvt3q606z8y59].[none:Calculation_1613696056701267970:nk]' />
+              <text column='[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1800dk914a3c711dvt3q606z8y59].[none:Calculation_1613696056701267970:nk]</rows>
+        <cols>[federated.1800dk914a3c711dvt3q606z8y59].[avg:hours_per_day:qk]</cols>
+      </table>
+      <simple-id uuid='{4C612816-6E27-443F-948E-ABD16D54C1FB}' />
     </worksheet>
     <worksheet name='Insomnia Levels'>
       <table>
@@ -1797,32 +2141,38 @@
             <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
             <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]'>
-            <groupfilter function='level-members' level='[exploratory]' user:ui-action-filter='[Action5_22F2A2E884964682916F55026F0A201E]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_C5C796DE7E91465CAB266A420D28144B]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
-            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <manual-sort column='[federated.1800dk914a3c711dvt3q606z8y59].[Insomnia Levels]' direction='ASC'>
             <dictionary>
               <bucket>&quot;Low&quot;</bucket>
-              <bucket>&quot;High&quot;</bucket>
               <bucket>&quot;Medium&quot;</bucket>
+              <bucket>&quot;High&quot;</bucket>
             </dictionary>
           </manual-sort>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]'>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]'>
+            <groupfilter function='level-members' level='[none:composer:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]'>
             <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
-              <groupfilter function='level-members' level='[none:fav_genre:nk]' />
-              <groupfilter function='member' level='[none:fav_genre:nk]' member='%null%' />
+              <groupfilter function='level-members' level='[none:exploratory:nk]' />
+              <groupfilter function='member' level='[none:exploratory:nk]' member='%null%' />
             </groupfilter>
           </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]'>
+            <groupfilter function='level-members' level='[none:instrumentalist:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
           <slices>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -1834,9 +2184,19 @@
             <format attr='width' field='[federated.1800dk914a3c711dvt3q606z8y59].[Insomnia Levels]' value='103' />
             <format attr='text-format' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='p0%' />
           </style-rule>
+          <style-rule element='field-labels'>
+            <format attr='color' value='#ffffff' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='#ffffff' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[Insomnia Levels]' value='#ffffff' />
+          </style-rule>
           <style-rule element='mark'>
             <encoding attr='size-bar' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' field-type='quantitative' max-size='1' min-size='0.005' type='centersize' />
             <encoding attr='size-bar' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' field-type='quantitative' max-size='1' min-size='0.005' type='centersize' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
           </style-rule>
         </style>
         <panes>
@@ -1889,34 +2249,43 @@
                 <alias key='&quot;Yes&quot;' value='Composer' />
               </aliases>
             </column>
-            <column caption='Exploratory' datatype='string' name='[exploratory]' role='dimension' type='nominal'>
-              <aliases>
-                <alias key='&quot;No&quot;' value='Non Music Explorer' />
-                <alias key='&quot;Yes&quot;' value='Music Explorer' />
-              </aliases>
-            </column>
+            <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
             <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
               <aliases>
                 <alias key='&quot;No&quot;' value='Non Instrumentalist' />
                 <alias key='&quot;Yes&quot;' value='Instrumentalist' />
               </aliases>
             </column>
-            <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
-            <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
+            <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
             <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]'>
-            <groupfilter function='level-members' level='[exploratory]' user:ui-action-filter='[Action5_22F2A2E884964682916F55026F0A201E]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_8A8E57EB7CC84CE3BA16C3BC7F517F9A]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <slices>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
           </slices>
           <aggregation value='true' />
         </view>
-        <style />
+        <style>
+          <style-rule element='cell'>
+            <format attr='font-size' data-class='subtotal' scope='cols' value='8' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='background-color' value='#545c7e' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='font-size' scope='cols' value='8' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+          <style-rule element='legend'>
+            <format attr='font-size' value='8' />
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+        </style>
         <panes>
           <pane selection-relaxation-option='selection-relaxation-allow'>
             <view>
@@ -1991,25 +2360,31 @@
               <table-calc ordering-field='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' ordering-type='Field' type='PctTotal' />
             </column-instance>
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]'>
-            <groupfilter function='level-members' level='[exploratory]' user:ui-action-filter='[Action5_22F2A2E884964682916F55026F0A201E]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_C5C796DE7E91465CAB266A420D28144B]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
-            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]'>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]'>
+            <groupfilter function='level-members' level='[none:composer:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]'>
             <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
-              <groupfilter function='level-members' level='[none:fav_genre:nk]' />
-              <groupfilter function='member' level='[none:fav_genre:nk]' member='%null%' />
+              <groupfilter function='level-members' level='[none:exploratory:nk]' />
+              <groupfilter function='member' level='[none:exploratory:nk]' member='%null%' />
             </groupfilter>
           </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]'>
+            <groupfilter function='level-members' level='[none:instrumentalist:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
           <slices>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -2017,8 +2392,14 @@
           <style-rule element='cell'>
             <format attr='text-format' field='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:3]' value='p0%' />
           </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
           <style-rule element='worksheet'>
             <format attr='display-field-labels' scope='cols' value='false' />
+          </style-rule>
+          <style-rule element='quick-filter'>
+            <format attr='background-color' value='#292e42' />
           </style-rule>
         </style>
         <panes>
@@ -2066,37 +2447,14 @@
                 <alias key='&quot;Yes&quot;' value='Composer' />
               </aliases>
             </column>
-            <column caption='Exploratory' datatype='string' name='[exploratory]' role='dimension' type='nominal'>
-              <aliases>
-                <alias key='&quot;No&quot;' value='Non Music Explorer' />
-                <alias key='&quot;Yes&quot;' value='Music Explorer' />
-              </aliases>
-            </column>
             <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
-            <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
-              <aliases>
-                <alias key='&quot;No&quot;' value='Non Instrumentalist' />
-                <alias key='&quot;Yes&quot;' value='Instrumentalist' />
-              </aliases>
-            </column>
             <column caption='Music Effects' datatype='string' name='[music_effects]' role='dimension' type='nominal' />
             <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
-            <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
             <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
-            <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
             <column-instance column='[music_effects]' derivation='None' name='[none:music_effects:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]'>
-            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
-              <groupfilter function='level-members' level='[none:fav_genre:nk]' />
-              <groupfilter function='member' level='[none:fav_genre:nk]' member='%null%' />
-            </groupfilter>
-          </filter>
           <slices>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -2148,34 +2506,20 @@
             <_.fcp.ObjectModelTableType.false...column caption='survey_results_cleaned.csv' datatype='integer' name='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' role='measure' type='quantitative' />
             <column-instance column='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' derivation='Count' name='[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' pivot='key' type='quantitative' />
             <_.fcp.ObjectModelTableType.true...column caption='survey_results_cleaned.csv' datatype='table' name='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' role='measure' type='quantitative' />
-            <column caption='Composer' datatype='string' name='[composer]' role='dimension' type='nominal'>
-              <aliases>
-                <alias key='&quot;No&quot;' value='Non Composer' />
-                <alias key='&quot;Yes&quot;' value='Composer' />
-              </aliases>
-            </column>
             <column caption='Exploratory' datatype='string' name='[exploratory]' role='dimension' type='nominal'>
               <aliases>
                 <alias key='&quot;No&quot;' value='Non Music Explorer' />
                 <alias key='&quot;Yes&quot;' value='Music Explorer' />
               </aliases>
             </column>
-            <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
-              <aliases>
-                <alias key='&quot;No&quot;' value='Non Instrumentalist' />
-                <alias key='&quot;Yes&quot;' value='Instrumentalist' />
-              </aliases>
-            </column>
+            <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
             <column caption='Music Effects' datatype='string' name='[music_effects]' role='dimension' type='nominal' />
-            <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
             <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
-            <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
+            <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
             <column-instance column='[music_effects]' derivation='None' name='[none:music_effects:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
           <slices>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -2227,18 +2571,7 @@
             <_.fcp.ObjectModelTableType.false...column caption='survey_results_cleaned.csv' datatype='integer' name='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' role='measure' type='quantitative' />
             <column-instance column='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' derivation='Count' name='[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' pivot='key' type='quantitative' />
             <_.fcp.ObjectModelTableType.true...column caption='survey_results_cleaned.csv' datatype='table' name='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' role='measure' type='quantitative' />
-            <column caption='Composer' datatype='string' name='[composer]' role='dimension' type='nominal'>
-              <aliases>
-                <alias key='&quot;No&quot;' value='Non Composer' />
-                <alias key='&quot;Yes&quot;' value='Composer' />
-              </aliases>
-            </column>
-            <column caption='Exploratory' datatype='string' name='[exploratory]' role='dimension' type='nominal'>
-              <aliases>
-                <alias key='&quot;No&quot;' value='Non Music Explorer' />
-                <alias key='&quot;Yes&quot;' value='Music Explorer' />
-              </aliases>
-            </column>
+            <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
             <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
               <aliases>
                 <alias key='&quot;No&quot;' value='Non Instrumentalist' />
@@ -2246,15 +2579,12 @@
               </aliases>
             </column>
             <column caption='Music Effects' datatype='string' name='[music_effects]' role='dimension' type='nominal' />
-            <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
-            <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
+            <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
             <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
             <column-instance column='[music_effects]' derivation='None' name='[none:music_effects:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
           <slices>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -2318,28 +2648,45 @@
                 <alias key='&quot;Yes&quot;' value='Music Explorer' />
               </aliases>
             </column>
+            <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
             <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
               <aliases>
                 <alias key='&quot;No&quot;' value='Non Instrumentalist' />
                 <alias key='&quot;Yes&quot;' value='Instrumentalist' />
               </aliases>
             </column>
-            <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
             <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
-            <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
+            <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_8A8E57EB7CC84CE3BA16C3BC7F517F9A]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
           <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
-            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <slices>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
           </slices>
           <aggregation value='true' />
         </view>
-        <style />
+        <style>
+          <style-rule element='cell'>
+            <format attr='font-size' data-class='subtotal' scope='rows' value='8' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='font-weight' scope='rows' value='normal' />
+            <format attr='font-size' scope='rows' value='8' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+          <style-rule element='legend'>
+            <format attr='font-size' value='8' />
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+        </style>
         <panes>
           <pane selection-relaxation-option='selection-relaxation-allow'>
             <view>
@@ -2424,11 +2771,11 @@
             <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
             <column caption='Ocd' datatype='integer' name='[ocd]' role='measure' type='quantitative' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]'>
-            <groupfilter function='level-members' level='[exploratory]' user:ui-action-filter='[Action5_22F2A2E884964682916F55026F0A201E]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_C5C796DE7E91465CAB266A420D28144B]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
-            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_D09227D7BBA248BEB19E03F33C71C8EF]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <manual-sort column='[federated.1800dk914a3c711dvt3q606z8y59].[Ocd Levels]' direction='ASC'>
             <dictionary>
@@ -2437,19 +2784,25 @@
               <bucket>&quot;High&quot;</bucket>
             </dictionary>
           </manual-sort>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]'>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]'>
+            <groupfilter function='level-members' level='[none:composer:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]'>
             <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
-              <groupfilter function='level-members' level='[none:fav_genre:nk]' />
-              <groupfilter function='member' level='[none:fav_genre:nk]' member='%null%' />
+              <groupfilter function='level-members' level='[none:exploratory:nk]' />
+              <groupfilter function='member' level='[none:exploratory:nk]' member='%null%' />
             </groupfilter>
           </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]'>
+            <groupfilter function='level-members' level='[none:instrumentalist:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
           <slices>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -2460,6 +2813,16 @@
           <style-rule element='cell'>
             <format attr='width' field='[federated.1800dk914a3c711dvt3q606z8y59].[Ocd Levels]' value='87' />
             <format attr='text-format' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='p0%' />
+          </style-rule>
+          <style-rule element='field-labels'>
+            <format attr='color' value='#ffffff' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='#ffffff' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[Ocd Levels]' value='#ffffff' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#292e42' />
           </style-rule>
         </style>
         <panes>
@@ -2496,11 +2859,6 @@
             <datasource caption='survey_results_cleaned' name='federated.1800dk914a3c711dvt3q606z8y59' />
           </datasources>
           <datasource-dependencies datasource='federated.1800dk914a3c711dvt3q606z8y59'>
-            <column-instance column='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' derivation='Count' name='[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' pivot='key' type='quantitative' />
-            <_.fcp.ObjectModelTableType.false...column caption='survey_results_cleaned.csv' datatype='integer' name='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' role='measure' type='quantitative' />
-            <column-instance column='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' derivation='Count' name='[__tableau_internal_object_id__].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' pivot='key' type='quantitative'>
-              <table-calc ordering-type='Rows' type='PctTotal' />
-            </column-instance>
             <_.fcp.ObjectModelTableType.true...column caption='survey_results_cleaned.csv' datatype='table' name='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' role='measure' type='quantitative' />
             <column caption='Composer' datatype='string' name='[composer]' role='dimension' type='nominal'>
               <aliases>
@@ -2514,6 +2872,7 @@
                 <alias key='&quot;Yes&quot;' value='Music Explorer' />
               </aliases>
             </column>
+            <column caption='Fav Genre' datatype='string' name='[fav_genre]' role='dimension' type='nominal' />
             <column caption='Instrumentalist' datatype='string' name='[instrumentalist]' role='dimension' type='nominal'>
               <aliases>
                 <alias key='&quot;No&quot;' value='Non Instrumentalist' />
@@ -2522,35 +2881,94 @@
             </column>
             <column-instance column='[composer]' derivation='None' name='[none:composer:nk]' pivot='key' type='nominal' />
             <column-instance column='[exploratory]' derivation='None' name='[none:exploratory:nk]' pivot='key' type='nominal' />
+            <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
             <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
             <column-instance column='[primary_streaming_service]' derivation='None' name='[none:primary_streaming_service:nk]' pivot='key' type='nominal' />
+            <column-instance column='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' derivation='Count' name='[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]' pivot='key' type='quantitative'>
+              <table-calc ordering-type='Columns' type='PctTotal' />
+            </column-instance>
             <column caption='Primary Streaming Service' datatype='string' name='[primary_streaming_service]' role='dimension' type='nominal' />
+            <_.fcp.ObjectModelTableType.false...column caption='survey_results_cleaned.csv' datatype='integer' name='[__tableau_internal_object_id__].[survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C]' role='measure' type='quantitative' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]'>
-            <groupfilter function='level-members' level='[exploratory]' user:ui-action-filter='[Action5_22F2A2E884964682916F55026F0A201E]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]'>
+            <groupfilter function='level-members' level='[composer]' user:ui-action-filter='[Action7_8A8E57EB7CC84CE3BA16C3BC7F517F9A]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
-            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action6_6572BAD967C64509A981A4A9123F6D1D]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
-          <shelf-sorts>
-            <shelf-sort-v2 dimension-to-sort='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' direction='DESC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' shelf='columns' />
-          </shelf-sorts>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]'>
+            <groupfilter function='level-members' level='[none:composer:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]'>
+            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[none:exploratory:nk]' />
+              <groupfilter function='member' level='[none:exploratory:nk]' member='%null%' />
+            </groupfilter>
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]'>
+            <groupfilter function='level-members' level='[none:instrumentalist:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
           <slices>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Composer)]</column>
           </slices>
           <aggregation value='true' />
         </view>
         <style>
           <style-rule element='axis'>
-            <format attr='title' class='0' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' scope='rows' value='Total of respondents' />
+            <format attr='title' class='0' field='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]' scope='cols' value='Total of respondents' />
           </style-rule>
           <style-rule element='cell'>
-            <format attr='width' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' value='145' />
-            <format attr='text-format' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='p0%' />
+            <format attr='height' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' value='40' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' value='#000000' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]' value='#e6e6e6' />
+            <format attr='font-weight' field='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]' value='bold' />
+            <format attr='color' data-class='subtotal' field='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]' value='#000000' />
+            <format attr='font-weight' data-class='total' field='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]' value='bold' />
+            <format attr='color' data-class='total' field='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]' value='#000000' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='font-weight' data-class='total' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' value='normal' />
+            <format attr='color' data-class='subtotal' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' value='#000000' />
+            <format attr='color' data-class='total' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' value='#000000' />
+            <format attr='background-color' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' value='#292e42' />
+            <format attr='band-color' scope='cols' value='#292e42' />
+            <format attr='band-color' scope='rows' value='#292e42' />
+          </style-rule>
+          <style-rule element='field-labels'>
+            <format attr='color' value='#ffffff' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='font-weight' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' value='bold' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' value='#ffffff' />
+            <format attr='color' field='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]' value='#e6e6e6' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='background-color' data-class='subtotal' value='#292e42' />
+            <format attr='band-color' scope='rows' value='#292e42' />
+            <format attr='band-color' scope='cols' value='#292e42' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='band-size' scope='rows' value='5' />
+            <format attr='background-color' value='#292e42' />
+            <format attr='band-size' scope='cols' value='1' />
+          </style-rule>
+          <style-rule element='refline'>
+            <format attr='stroke-color' id='refline0' value='#000000' />
+          </style-rule>
+          <style-rule element='table-div'>
+            <format attr='div-level' scope='rows' value='10' />
+            <format attr='div-level' scope='cols' value='10' />
+          </style-rule>
+          <style-rule element='legend'>
+            <format attr='background-color' value='#292e42' />
+          </style-rule>
+          <style-rule element='quick-filter'>
+            <format attr='background-color' value='#292e42' />
           </style-rule>
         </style>
         <panes>
@@ -2561,24 +2979,20 @@
             <mark class='Automatic' />
             <encodings>
               <color column='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' />
-              <text column='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' />
+              <text column='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]' />
             </encodings>
             <style>
               <style-rule element='mark'>
+                <format attr='size' value='1' />
                 <format attr='mark-labels-show' value='true' />
                 <format attr='mark-labels-cull' value='true' />
-              </style-rule>
-              <style-rule element='pane'>
-                <format attr='minheight' value='-1' />
-                <format attr='maxheight' value='-1' />
-                <format attr='minwidth' value='-1' />
-                <format attr='maxwidth' value='-1' />
+                <format attr='mark-transparency' value='231' />
               </style-rule>
             </style>
           </pane>
         </panes>
-        <rows>[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]</rows>
-        <cols>[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]</cols>
+        <rows>[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]</rows>
+        <cols>[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:9]</cols>
       </table>
       <simple-id uuid='{972C137A-6747-423A-85F2-8BA252873BE7}' />
     </worksheet>
@@ -2616,25 +3030,29 @@
             <column-instance column='[fav_genre]' derivation='None' name='[none:fav_genre:nk]' pivot='key' type='nominal' />
             <column-instance column='[instrumentalist]' derivation='None' name='[none:instrumentalist:nk]' pivot='key' type='nominal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]'>
-            <groupfilter function='level-members' level='[exploratory]' user:ui-action-filter='[Action5_22F2A2E884964682916F55026F0A201E]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-          </filter>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]'>
-            <groupfilter function='level-members' level='[instrumentalist]' user:ui-action-filter='[Action3_2AD833C5ED2447A79BC778EA6FC58C7F]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-          </filter>
-          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]'>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]'>
             <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
-              <groupfilter function='level-members' level='[none:fav_genre:nk]' />
-              <groupfilter function='member' level='[none:fav_genre:nk]' member='%null%' />
+              <groupfilter function='level-members' level='[none:composer:nk]' />
+              <groupfilter function='member' level='[none:composer:nk]' member='%null%' />
+            </groupfilter>
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]'>
+            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[none:exploratory:nk]' />
+              <groupfilter function='member' level='[none:exploratory:nk]' member='%null%' />
+            </groupfilter>
+          </filter>
+          <filter class='categorical' column='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]'>
+            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[none:instrumentalist:nk]' />
+              <groupfilter function='member' level='[none:instrumentalist:nk]' member='%null%' />
             </groupfilter>
           </filter>
           <slices>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
+            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]</column>
             <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Instrumentalist)]</column>
-            <column>[federated.1800dk914a3c711dvt3q606z8y59].[Action (Exploratory)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -2643,6 +3061,7 @@
             <format attr='text-align' value='left' />
             <format attr='font-size' data-class='total' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='20' />
             <format attr='text-align' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='center' />
+            <format attr='vertical-align' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='center' />
           </style-rule>
           <style-rule element='header'>
             <format attr='font-size' data-class='subtotal' value='9' />
@@ -2650,6 +3069,13 @@
           </style-rule>
           <style-rule element='label'>
             <format attr='font-size' field='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' value='9' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='background-color' value='#545c7e' />
+          </style-rule>
+          <style-rule element='worksheet'>
+            <format attr='font-weight' value='bold' />
+            <format attr='font-size' value='12' />
           </style-rule>
           <style-rule element='title'>
             <format attr='font-size' value='15' />
@@ -2679,11 +3105,7 @@
   </worksheets>
   <dashboards>
     <dashboard _.fcp.AccessibleZoneTabOrder.true...enable-sort-zone-taborder='true' name='Dashboard'>
-      <style>
-        <style-rule element='dash-text'>
-          <format attr='text-align' id='dash-text_59' value='center' />
-        </style-rule>
-      </style>
+      <style />
       <size sizing-mode='automatic' />
       <datasources>
         <datasource caption='survey_results_cleaned' name='federated.1800dk914a3c711dvt3q606z8y59' />
@@ -2694,9 +3116,8 @@
       </datasource-dependencies>
       <zones>
         <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
-          <zone h='27883' id='7' param='horz' type-v2='layout-flow' w='87700' x='11943' y='22117'>
-            <zone fixed-size='1351' h='27883' id='20' is-fixed='true' name='Primary Streaming Services Count' show-title='false' w='60562' x='11943' y='22117'>
-              <layout-cache minheight='206' type-h='scalable' type-w='cell' />
+          <zone h='87989' id='6' param='vert' type-v2='layout-flow' w='14239' x='629' y='11005'>
+            <zone fixed-size='65' h='9182' id='11' is-fixed='true' name='Instrumentalist' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type-v2='color' w='14239' x='629' y='11005'>
               <zone-style>
                 <format attr='border-color' value='#000000' />
                 <format attr='border-style' value='none' />
@@ -2704,8 +3125,50 @@
                 <format attr='margin' value='4' />
               </zone-style>
             </zone>
-            <zone h='27883' id='60' name='Music Effects' w='27138' x='72505' y='22117'>
-              <layout-cache cell-count-w='1' type-h='fixed' type-w='cell' />
+            <zone h='14859' id='9' name='Instrumentalist' show-title='false' w='14239' x='629' y='20187'>
+              <layout-cache fixed-size-h='160' type-h='fixed' type-w='fixed' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+            <zone h='9685' id='13' name='Composer' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type-v2='color' w='14239' x='629' y='35046'>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+            <zone h='14859' id='12' name='Composer' show-title='false' w='14239' x='629' y='44731'>
+              <layout-cache fixed-size-h='160' type-h='fixed' type-w='fixed' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+            <zone h='9685' id='15' name='Music Explorer' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type-v2='color' w='14239' x='629' y='59590'>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+            <zone h='14859' id='14' name='Music Explorer' show-title='false' w='14239' x='629' y='69275'>
+              <layout-cache fixed-size-h='160' type-h='fixed' type-w='fixed' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+            <zone h='14860' id='27' name='Music Effects' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type-v2='filter' w='14239' x='629' y='84134'>
               <zone-style>
                 <format attr='border-color' value='#000000' />
                 <format attr='border-style' value='none' />
@@ -2714,8 +3177,8 @@
               </zone-style>
             </zone>
           </zone>
-          <zone h='49368' id='27' param='horz' type-v2='layout-flow' w='37919' x='11943' y='50000'>
-            <zone h='49368' id='28' name='Anxiety Levels' show-title='false' w='18959' x='11943' y='50000'>
+          <zone h='25739' id='7' param='horz' type-v2='layout-flow' w='84503' x='14868' y='73255'>
+            <zone h='25739' id='37' name='Anxiety Levels' show-title='false' w='21123' x='14868' y='73255'>
               <layout-cache cell-count-w='3' minheight='206' non-cell-size-w='78' type-h='scalable' type-w='cell' />
               <zone-style>
                 <format attr='border-color' value='#000000' />
@@ -2724,7 +3187,25 @@
                 <format attr='margin' value='4' />
               </zone-style>
             </zone>
-            <zone h='49368' id='34' name='Depression Levels' show-title='false' w='18959' x='30902' y='50000'>
+            <zone h='25739' id='42' name='Depression Levels' show-title='false' w='21123' x='35991' y='73255'>
+              <layout-cache cell-count-w='3' non-cell-size-w='78' type-h='fixed' type-w='cell' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+            <zone h='25739' id='47' name='Insomnia Levels' show-title='false' w='21123' x='57114' y='73255'>
+              <layout-cache cell-count-w='3' non-cell-size-w='78' type-h='fixed' type-w='cell' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+            <zone h='25739' id='52' name='OCD Levels' show-title='false' w='21123' x='78237' y='73255'>
               <layout-cache cell-count-w='3' non-cell-size-w='78' type-h='fixed' type-w='cell' />
               <zone-style>
                 <format attr='border-color' value='#000000' />
@@ -2734,7 +3215,19 @@
               </zone-style>
             </zone>
           </zone>
-          <zone h='49368' id='40' name='Insomnia Levels' show-title='false' w='24754' x='49862' y='50000'>
+          <zone h='38995' id='16' param='horz' type-v2='layout-flow' w='42246' x='14868' y='11005'>
+            <zone h='38995' id='18' name='Primary Streaming Services Count' show-title='false' w='42246' x='14868' y='11005'>
+              <layout-cache fixed-size-h='290' minwidth='240' type-h='fixed' type-w='scalable' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+          </zone>
+          <zone h='20533' id='34' name='Hours per day per musicias VS non musicians' show-title='false' w='42257' x='57114' y='11005'>
+            <layout-cache fixed-size-h='131' type-h='fixed' type-w='fixed' />
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -2742,7 +3235,8 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='49368' id='46' name='OCD Levels' show-title='false' w='25027' x='74616' y='50000'>
+          <zone h='18462' id='36' name='Hours per day per Explorer VS non Explorer' show-title='false' w='42257' x='57114' y='31538'>
+            <layout-cache fixed-size-h='131' type-h='fixed' type-w='fixed' />
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -2750,10 +3244,32 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='21485' id='52' param='horz' type-v2='layout-flow' w='87700' x='11943' y='632'>
-            <zone fixed-size='1696' forceUpdate='true' h='21485' id='53' is-fixed='true' type-v2='text' w='75936' x='11943' y='632'>
+          <zone h='23255' id='54' param='horz' type-v2='layout-flow' w='84503' x='14868' y='50000'>
+            <zone h='23255' id='56' name='Hours per day per Music Effect' show-title='false' w='71217' x='14868' y='50000'>
+              <layout-cache minwidth='220' type-h='fixed' type-w='scalable' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+            <zone fixed-size='161' h='23255' id='23' is-fixed='true' name='Music Effects' show-title='false' w='13286' x='86085' y='50000'>
+              <layout-cache type-h='fixed' type-w='fixed' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+          </zone>
+          <zone h='9999' id='55' param='horz' type-v2='layout-flow' w='98742' x='629' y='1006'>
+            <zone fixed-size='1063' h='9999' id='57' is-fixed='true' type-v2='text' w='84198' x='629' y='1006'>
               <formatted-text>
-                <run bold='true' fontalignment='1' fontsize='22'>Music &amp; Mental Health - Dashboard</run>
+                <run bold='true' fontalignment='1' fontsize='11'>Music &amp; Mental Health Survey results</run>
+                <run fontalignment='1'>Æ&#10;</run>
+                <run bold='true' fontalignment='1' fontsize='10'>Dashboard</run>
               </formatted-text>
               <zone-style>
                 <format attr='border-color' value='#000000' />
@@ -2762,10 +3278,10 @@
                 <format attr='margin' value='4' />
               </zone-style>
             </zone>
-            <zone h='21485' id='3' param='vert' type-v2='layout-flow' w='11764' x='87879' y='632'>
-              <zone h='2607' id='59' type-v2='text' w='11764' x='87879' y='632'>
+            <zone h='9999' id='60' param='vert' type-v2='layout-flow' w='14544' x='84827' y='1006'>
+              <zone forceUpdate='true' h='3773' id='61' type-v2='text' w='14544' x='84827' y='1006'>
                 <formatted-text>
-                  <run>Total of respondents</run>
+                  <run bold='true' fontalignment='1' fontsize='8'>Total of respondents</run>
                 </formatted-text>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
@@ -2774,74 +3290,8 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='4976' id='5' name='Total of respondents' show-title='false' w='11764' x='87879' y='3239'>
-                <layout-cache fixed-size-w='80' type-h='fixed' type-w='fixed' />
-                <zone-style>
-                  <format attr='border-color' value='#000000' />
-                  <format attr='border-style' value='none' />
-                  <format attr='border-width' value='0' />
-                  <format attr='margin' value='4' />
-                </zone-style>
-              </zone>
-            </zone>
-          </zone>
-          <zone h='98736' id='63' is-fixed='true' type-v2='layout-basic' w='11586' x='357' y='632'>
-            <zone h='21485' id='54' param='vert' type-v2='layout-flow' w='11586' x='357' y='632'>
-              <zone h='21485' id='62' param='horz' type-v2='layout-flow' w='11586' x='357' y='632' />
-            </zone>
-            <zone h='77251' id='64' param='vert' type-v2='layout-flow' w='11586' x='357' y='22117'>
-              <zone h='17536' id='61' name='Music Effects' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type-v2='filter' w='11586' x='357' y='22117'>
-                <zone-style>
-                  <format attr='border-color' value='#000000' />
-                  <format attr='border-style' value='none' />
-                  <format attr='border-width' value='0' />
-                  <format attr='margin' value='4' />
-                </zone-style>
-              </zone>
-              <zone h='13270' id='13' name='Instrumentalist' show-title='false' w='11586' x='357' y='39653'>
-                <layout-cache fixed-size-h='160' fixed-size-w='185' type-h='fixed' type-w='fixed' />
-                <zone-style>
-                  <format attr='border-color' value='#000000' />
-                  <format attr='border-style' value='none' />
-                  <format attr='border-width' value='0' />
-                  <format attr='margin' value='4' />
-                </zone-style>
-              </zone>
-              <zone h='6635' id='15' name='Instrumentalist' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type-v2='color' w='11586' x='357' y='52923'>
-                <zone-style>
-                  <format attr='border-color' value='#000000' />
-                  <format attr='border-style' value='none' />
-                  <format attr='border-width' value='0' />
-                  <format attr='margin' value='4' />
-                </zone-style>
-              </zone>
-              <zone h='13270' id='16' name='Composer' show-title='false' w='11586' x='357' y='59558'>
-                <layout-cache fixed-size-h='160' fixed-size-w='185' type-h='fixed' type-w='fixed' />
-                <zone-style>
-                  <format attr='border-color' value='#000000' />
-                  <format attr='border-style' value='none' />
-                  <format attr='border-width' value='0' />
-                  <format attr='margin' value='4' />
-                </zone-style>
-              </zone>
-              <zone h='6635' id='17' name='Composer' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type-v2='color' w='11586' x='357' y='72828'>
-                <zone-style>
-                  <format attr='border-color' value='#000000' />
-                  <format attr='border-style' value='none' />
-                  <format attr='border-width' value='0' />
-                  <format attr='margin' value='4' />
-                </zone-style>
-              </zone>
-              <zone h='13270' id='18' name='Music Explorer' show-title='false' w='11586' x='357' y='79463'>
-                <layout-cache fixed-size-h='160' fixed-size-w='185' type-h='fixed' type-w='fixed' />
-                <zone-style>
-                  <format attr='border-color' value='#000000' />
-                  <format attr='border-style' value='none' />
-                  <format attr='border-width' value='0' />
-                  <format attr='margin' value='4' />
-                </zone-style>
-              </zone>
-              <zone h='6635' id='19' name='Music Explorer' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type-v2='color' w='11586' x='357' y='92733'>
+              <zone h='6226' id='62' name='Total of respondents' show-title='false' w='14544' x='84827' y='4779'>
+                <layout-cache cell-count-h='1' type-h='cell' type-w='cell' />
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -2861,13 +3311,15 @@
       </zones>
       <devicelayouts>
         <devicelayout auto-generated='true' name='Phone'>
-          <size maxheight='2650' minheight='2650' sizing-mode='vscroll' />
+          <size maxheight='2500' minheight='2500' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='66' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98736' id='65' param='vert' type-v2='layout-flow' w='99286' x='357' y='632'>
-                <zone fixed-size='1696' forceUpdate='true' h='21485' id='53' type-v2='text' w='75936' x='11943' y='632'>
+            <zone h='100000' id='59' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='97922' id='58' param='vert' type-v2='layout-flow' w='98742' x='629' y='1039'>
+                <zone h='10000' id='57' type-v2='text' w='98742' x='629' y='1039'>
                   <formatted-text>
-                    <run bold='true' fontalignment='1' fontsize='22'>Music &amp; Mental Health - Dashboard</run>
+                    <run bold='true' fontalignment='1' fontsize='11'>Music &amp; Mental Health Survey results</run>
+                    <run fontalignment='1'>Æ&#10;</run>
+                    <run bold='true' fontalignment='1' fontsize='10'>Dashboard</run>
                   </formatted-text>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -2877,10 +3329,8 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='2607' id='59' type-v2='text' w='11764' x='87879' y='632'>
-                  <formatted-text>
-                    <run>Total of respondents</run>
-                  </formatted-text>
+                <zone fixed-size='280' h='38961' id='18' is-fixed='true' name='Primary Streaming Services Count' show-title='false' w='42248' x='14873' y='11039'>
+                  <layout-cache fixed-size-h='290' minwidth='240' type-h='fixed' type-w='scalable' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2889,8 +3339,8 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='2607' id='5' is-fixed='true' name='Total of respondents' show-title='false' w='11764' x='87879' y='3239'>
-                  <layout-cache fixed-size-h='25' fixed-size-w='60' type-h='fixed' type-w='fixed' />
+                <zone fixed-size='156' h='20519' id='34' is-fixed='true' name='Hours per day per musicias VS non musicians' show-title='false' w='42250' x='57121' y='11039'>
+                  <layout-cache fixed-size-h='131' type-h='fixed' type-w='fixed' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2899,8 +3349,8 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='215' h='27883' id='20' is-fixed='true' name='Primary Streaming Services Count' show-title='false' w='60562' x='11943' y='22117'>
-                  <layout-cache minheight='206' type-h='scalable' type-w='cell' />
+                <zone fixed-size='108' h='14480' id='9' is-fixed='true' name='Instrumentalist' show-title='false' w='14244' x='629' y='21039'>
+                  <layout-cache type-h='fixed' type-w='fixed' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2909,7 +3359,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='17536' id='61' mode='checkdropdown' name='Music Effects' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type-v2='filter' w='11586' x='357' y='22117'>
+                <zone h='10000' id='11' name='Instrumentalist' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type-v2='color' w='14244' x='629' y='11039'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2918,8 +3368,8 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='215' h='27883' id='60' is-fixed='true' name='Music Effects' w='27138' x='72505' y='22117'>
-                  <layout-cache cell-count-w='1' type-h='fixed' type-w='cell' />
+                <zone fixed-size='140' h='18442' id='36' is-fixed='true' name='Hours per day per Explorer VS non Explorer' show-title='false' w='42250' x='57121' y='31558'>
+                  <layout-cache fixed-size-h='131' type-h='fixed' type-w='fixed' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2928,8 +3378,8 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='98' h='13270' id='13' is-fixed='true' name='Instrumentalist' show-title='false' w='11586' x='357' y='39653'>
-                  <layout-cache fixed-size-h='160' fixed-size-w='185' type-h='fixed' type-w='fixed' />
+                <zone fixed-size='108' h='14480' id='12' is-fixed='true' name='Composer' show-title='false' w='14244' x='629' y='45519'>
+                  <layout-cache type-h='fixed' type-w='fixed' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2938,7 +3388,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='6635' id='15' name='Instrumentalist' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type-v2='color' w='11586' x='357' y='52923'>
+                <zone h='10000' id='13' name='Composer' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type-v2='color' w='14244' x='629' y='35519'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2947,7 +3397,55 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='49368' id='28' is-fixed='true' name='Anxiety Levels' show-title='false' w='18959' x='11943' y='50000'>
+                <zone fixed-size='178' h='23247' id='56' is-fixed='true' name='Hours per day per Music Effect' show-title='false' w='71212' x='14873' y='50000'>
+                  <layout-cache minwidth='220' type-h='fixed' type-w='scalable' />
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='14482' id='27' mode='checkdropdown' name='Music Effects' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type-v2='filter' w='14244' x='629' y='84479'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='178' h='23247' id='23' is-fixed='true' name='Music Effects' show-title='false' w='13286' x='86085' y='50000'>
+                  <layout-cache type-h='fixed' type-w='fixed' />
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='108' h='14480' id='14' is-fixed='true' name='Music Explorer' show-title='false' w='14244' x='629' y='69999'>
+                  <layout-cache type-h='fixed' type-w='fixed' />
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='10000' id='15' name='Music Explorer' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type-v2='color' w='14244' x='629' y='59999'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='198' h='25714' id='37' is-fixed='true' name='Anxiety Levels' show-title='false' w='21123' x='14873' y='73247'>
                   <layout-cache cell-count-w='3' minheight='206' non-cell-size-w='78' type-h='scalable' type-w='cell' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -2957,7 +3455,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='49368' id='34' is-fixed='true' name='Depression Levels' show-title='false' w='18959' x='30902' y='50000'>
+                <zone fixed-size='198' h='25714' id='42' is-fixed='true' name='Depression Levels' show-title='false' w='21123' x='35996' y='73247'>
                   <layout-cache cell-count-w='3' non-cell-size-w='78' type-h='fixed' type-w='cell' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -2967,7 +3465,8 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='49368' id='40' is-fixed='true' name='Insomnia Levels' show-title='false' w='24754' x='49862' y='50000'>
+                <zone fixed-size='198' h='25714' id='47' is-fixed='true' name='Insomnia Levels' show-title='false' w='21123' x='57119' y='73247'>
+                  <layout-cache cell-count-w='3' non-cell-size-w='78' type-h='fixed' type-w='cell' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2976,45 +3475,8 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='49368' id='46' is-fixed='true' name='OCD Levels' show-title='false' w='25027' x='74616' y='50000'>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                    <format attr='padding' value='0' />
-                  </zone-style>
-                </zone>
-                <zone fixed-size='99' h='13270' id='16' is-fixed='true' name='Composer' show-title='false' w='11586' x='357' y='59558'>
-                  <layout-cache fixed-size-h='160' fixed-size-w='185' type-h='fixed' type-w='fixed' />
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                    <format attr='padding' value='0' />
-                  </zone-style>
-                </zone>
-                <zone h='6635' id='17' name='Composer' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type-v2='color' w='11586' x='357' y='72828'>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                    <format attr='padding' value='0' />
-                  </zone-style>
-                </zone>
-                <zone fixed-size='98' h='13270' id='18' is-fixed='true' name='Music Explorer' show-title='false' w='11586' x='357' y='79463'>
-                  <layout-cache fixed-size-h='160' fixed-size-w='185' type-h='fixed' type-w='fixed' />
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                    <format attr='padding' value='0' />
-                  </zone-style>
-                </zone>
-                <zone h='6635' id='19' name='Music Explorer' pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type-v2='color' w='11586' x='357' y='92733'>
+                <zone fixed-size='198' h='25714' id='52' is-fixed='true' name='OCD Levels' show-title='false' w='21123' x='78242' y='73247'>
+                  <layout-cache cell-count-w='3' non-cell-size-w='78' type-h='fixed' type-w='cell' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -3034,14 +3496,68 @@
           </zones>
         </devicelayout>
       </devicelayouts>
-      <simple-id uuid='{D73E6649-1CFA-42B9-88DF-0450A4C26353}' />
+      <simple-id uuid='{733044C3-4852-49D0-9DFE-BB4658799982}' />
+    </dashboard>
+    <dashboard name='História 1' type='storyboard'>
+      <style />
+      <size maxheight='964' maxwidth='1016' minheight='964' minwidth='1016' />
+      <zones>
+        <zone h='100000' id='2' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='98340' id='1' param='vert' removable='false' type-v2='layout-flow' w='98426' x='787' y='830'>
+            <zone h='5187' id='3' type-v2='title' w='98426' x='787' y='830' />
+            <zone h='10477' id='4' is-fixed='true' paired-zone-id='5' removable='false' type-v2='flipboard-nav' w='98426' x='787' y='6017' />
+            <zone h='82676' id='5' paired-zone-id='4' removable='false' type-v2='flipboard' w='98426' x='787' y='16494'>
+              <flipboard active-id='1' nav-type='caption' show-nav-arrows='true'>
+                <story-points>
+                  <story-point captured-sheet='' id='1' />
+                </story-points>
+              </flipboard>
+            </zone>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <simple-id uuid='{ECB7DFAE-38DB-4B01-8B98-5AFC703B7399}' />
     </dashboard>
   </dashboards>
-  <windows saved-dpi-scale-factor='1.5' source-height='44'>
-    <window class='worksheet' name='Total of respondents'>
+  <windows saved-dpi-scale-factor='1.5' source-height='30'>
+    <window class='worksheet' maximized='true' name='Total of respondents'>
       <cards>
         <edge name='left'>
-          <strip size='106'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='48'>
+            <card type='columns' />
+          </strip>
+          <strip size='48'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='170'>
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{A27C7EB1-6330-40AD-B388-7501F8E2AC62}' />
+    </window>
+    <window class='worksheet' name='Primary Streaming Services Count'>
+      <cards>
+        <edge name='left'>
+          <strip size='240'>
             <card type='pages' />
             <card type='filters' />
             <card type='marks' />
@@ -3056,17 +3572,18 @@
           </strip>
         </edge>
         <edge name='right'>
-          <strip size='113'>
+          <strip size='255'>
             <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
             <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
             <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' type='color' />
           </strip>
         </edge>
       </cards>
-      <simple-id uuid='{A27C7EB1-6330-40AD-B388-7501F8E2AC62}' />
+      <simple-id uuid='{B410CAFC-AF6A-42F8-AD62-52269A449E86}' />
     </window>
-    <window class='worksheet' name='Primary Streaming Services Count'>
+    <window class='worksheet' name='Instrumentalist'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -3084,35 +3601,10 @@
           </strip>
         </edge>
         <edge name='right'>
-          <strip size='113'>
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:primary_streaming_service:nk]' type='color' />
-          </strip>
-        </edge>
-      </cards>
-      <simple-id uuid='{B410CAFC-AF6A-42F8-AD62-52269A449E86}' />
-    </window>
-    <window class='worksheet' name='Instrumentalist'>
-      <cards>
-        <edge name='left'>
-          <strip size='106'>
-            <card type='pages' />
-            <card type='filters' />
-            <card type='marks' />
-          </strip>
-        </edge>
-        <edge name='top'>
-          <strip size='2147483647'>
-            <card type='columns' />
-          </strip>
-          <strip size='2147483647'>
-            <card type='rows' />
-          </strip>
-        </edge>
-        <edge name='right'>
-          <strip size='113'>
+          <strip size='170'>
             <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' type='size' />
           </strip>
-          <strip size='100'>
+          <strip size='150'>
             <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='color' />
           </strip>
         </edge>
@@ -3122,7 +3614,7 @@
     <window class='worksheet' name='Composer'>
       <cards>
         <edge name='left'>
-          <strip size='106'>
+          <strip size='160'>
             <card type='pages' />
             <card type='filters' />
             <card type='marks' />
@@ -3137,7 +3629,7 @@
           </strip>
         </edge>
         <edge name='right'>
-          <strip size='113'>
+          <strip size='170'>
             <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='color' />
             <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' type='size' />
           </strip>
@@ -3148,203 +3640,7 @@
     <window class='worksheet' name='Music Explorer'>
       <cards>
         <edge name='left'>
-          <strip size='106'>
-            <card type='pages' />
-            <card type='filters' />
-            <card type='marks' />
-          </strip>
-        </edge>
-        <edge name='top'>
-          <strip size='2147483647'>
-            <card type='columns' />
-          </strip>
-          <strip size='2147483647'>
-            <card type='rows' />
-          </strip>
-        </edge>
-        <edge name='right'>
-          <strip size='113'>
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='color' />
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' type='size' />
-          </strip>
-        </edge>
-      </cards>
-      <simple-id uuid='{938D0D98-55B1-4CEE-87B4-36E2A92C390C}' />
-    </window>
-    <window class='worksheet' name='Music Effets for Instrumentalist VS non-instrumentalists'>
-      <cards>
-        <edge name='left'>
-          <strip size='106'>
-            <card type='pages' />
-            <card type='filters' />
-            <card type='marks' />
-          </strip>
-        </edge>
-        <edge name='top'>
-          <strip size='2147483647'>
-            <card type='columns' />
-          </strip>
-          <strip size='2147483647'>
-            <card type='rows' />
-          </strip>
-        </edge>
-        <edge name='right'>
-          <strip size='113'>
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' type='color' />
-          </strip>
-        </edge>
-      </cards>
-      <simple-id uuid='{05AB3717-0E5F-4DC8-91C9-318F0C7A587E}' />
-    </window>
-    <window class='worksheet' name='Music Effects for Composers'>
-      <cards>
-        <edge name='left'>
-          <strip size='106'>
-            <card type='pages' />
-            <card type='filters' />
-            <card type='marks' />
-          </strip>
-        </edge>
-        <edge name='top'>
-          <strip size='2147483647'>
-            <card type='columns' />
-          </strip>
-          <strip size='2147483647'>
-            <card type='rows' />
-          </strip>
-        </edge>
-        <edge name='right'>
-          <strip size='113'>
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' type='color' />
-          </strip>
-        </edge>
-      </cards>
-      <simple-id uuid='{E4BF32CA-0FFB-40D1-8F12-A4777BE1F9F5}' />
-    </window>
-    <window class='worksheet' name='Music Effects for Music Explorers VS non Exlplorers'>
-      <cards>
-        <edge name='left'>
-          <strip size='106'>
-            <card type='pages' />
-            <card type='filters' />
-            <card type='marks' />
-          </strip>
-        </edge>
-        <edge name='top'>
-          <strip size='2147483647'>
-            <card type='columns' />
-          </strip>
-          <strip size='2147483647'>
-            <card type='rows' />
-          </strip>
-        </edge>
-        <edge name='right'>
-          <strip size='113'>
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' type='color' />
-          </strip>
-        </edge>
-      </cards>
-      <simple-id uuid='{AF46DE8C-D3AB-47B5-815A-FEA83D7CFD05}' />
-    </window>
-    <window class='worksheet' name='Anxiety Levels'>
-      <cards>
-        <edge name='left'>
-          <strip size='106'>
-            <card type='pages' />
-            <card type='filters' />
-            <card type='marks' />
-          </strip>
-        </edge>
-        <edge name='top'>
-          <strip size='2147483647'>
-            <card type='columns' />
-          </strip>
-          <strip size='2147483647'>
-            <card type='rows' />
-          </strip>
-        </edge>
-        <edge name='right'>
-          <strip size='113'>
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[Anxiety Levels]' type='color' />
-          </strip>
-        </edge>
-      </cards>
-      <simple-id uuid='{5A076832-CDA8-4E8A-98A9-F277B3C0E0F6}' />
-    </window>
-    <window class='worksheet' name='Depression Levels'>
-      <cards>
-        <edge name='left'>
-          <strip size='106'>
-            <card type='pages' />
-            <card type='filters' />
-            <card type='marks' />
-          </strip>
-        </edge>
-        <edge name='top'>
-          <strip size='2147483647'>
-            <card type='columns' />
-          </strip>
-          <strip size='2147483647'>
-            <card type='rows' />
-          </strip>
-        </edge>
-        <edge name='right'>
-          <strip size='113'>
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[Depression (grupo)]' type='color' />
-          </strip>
-        </edge>
-      </cards>
-      <simple-id uuid='{045C2DD0-BB20-40BB-AA00-2B929790FD7A}' />
-    </window>
-    <window class='worksheet' name='Insomnia Levels'>
-      <cards>
-        <edge name='left'>
-          <strip size='106'>
-            <card type='pages' />
-            <card type='filters' />
-            <card type='marks' />
-          </strip>
-        </edge>
-        <edge name='top'>
-          <strip size='2147483647'>
-            <card type='columns' />
-          </strip>
-          <strip size='2147483647'>
-            <card type='rows' />
-          </strip>
-        </edge>
-        <edge name='right'>
-          <strip size='113'>
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[Insomnia Levels]' type='color' />
-          </strip>
-        </edge>
-      </cards>
-      <simple-id uuid='{A7D0865B-6F01-4E72-8C35-D72CDA82F159}' />
-    </window>
-    <window class='worksheet' name='OCD Levels'>
-      <cards>
-        <edge name='left'>
-          <strip size='106'>
+          <strip size='160'>
             <card type='pages' />
             <card type='filters' />
             <card type='marks' />
@@ -3360,17 +3656,39 @@
         </edge>
         <edge name='right'>
           <strip size='170'>
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
-            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
-            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[Ocd Levels]' type='color' />
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='color' />
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[__tableau_internal_object_id__].[cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk]' type='size' />
           </strip>
         </edge>
       </cards>
-      <simple-id uuid='{D442F96E-A4B9-4128-B96E-53AED78A4264}' />
+      <simple-id uuid='{938D0D98-55B1-4CEE-87B4-36E2A92C390C}' />
     </window>
-    <window class='worksheet' name='Music Effects'>
+    <window class='worksheet' name='Music Effets for Instrumentalist VS non-instrumentalists'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='170'>
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{05AB3717-0E5F-4DC8-91C9-318F0C7A587E}' />
+    </window>
+    <window class='worksheet' name='Music Effects for Composers'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -3390,9 +3708,176 @@
         <edge name='right'>
           <strip size='170'>
             <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{E4BF32CA-0FFB-40D1-8F12-A4777BE1F9F5}' />
+    </window>
+    <window class='worksheet' name='Music Effects for Music Explorers VS non Exlplorers'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='170'>
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{AF46DE8C-D3AB-47B5-815A-FEA83D7CFD05}' />
+    </window>
+    <window class='worksheet' name='Anxiety Levels'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='170'>
             <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
             <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
             <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[Anxiety Levels]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{5A076832-CDA8-4E8A-98A9-F277B3C0E0F6}' />
+    </window>
+    <window class='worksheet' name='Depression Levels'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='170'>
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[Depression (grupo)]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{045C2DD0-BB20-40BB-AA00-2B929790FD7A}' />
+    </window>
+    <window class='worksheet' name='Insomnia Levels'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='170'>
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[Insomnia Levels]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{A7D0865B-6F01-4E72-8C35-D72CDA82F159}' />
+    </window>
+    <window class='worksheet' name='OCD Levels'>
+      <cards>
+        <edge name='left'>
+          <strip size='232'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='48'>
+            <card type='columns' />
+          </strip>
+          <strip size='48'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='255'>
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[Ocd Levels]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{D442F96E-A4B9-4128-B96E-53AED78A4264}' />
+    </window>
+    <window class='worksheet' name='Music Effects'>
+      <cards>
+        <edge name='left'>
+          <strip size='240'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='255'>
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
             <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' type='color' />
             <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[pcto:cnt:survey_results_cleaned.csv_0B5A3C7DB4A449F3BD727FEC05E4933C:qk:3]' type='size' />
           </strip>
@@ -3400,13 +3885,101 @@
       </cards>
       <simple-id uuid='{87B34934-A6B3-4D18-8885-F20EDC0848DE}' />
     </window>
-    <window class='dashboard' maximized='true' name='Dashboard'>
+    <window class='worksheet' name='Hours per day per Music Effect'>
+      <cards>
+        <edge name='left'>
+          <strip size='240'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='255'>
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:composer:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:instrumentalist:nk]' type='filter' />
+            <card param='[federated.1800dk914a3c711dvt3q606z8y59].[none:fav_genre:nk]' type='filter' />
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:music_effects:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{F9509560-30C6-4E7D-8590-E6D764F26DE6}' />
+    </window>
+    <window class='worksheet' name='Hours per day per musicias VS non musicians'>
+      <cards>
+        <edge name='left'>
+          <strip size='240'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='255'>
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:Calculation_1613696056701267970:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{95EF7A2B-A6F3-4330-8154-6528DDACAFD2}' />
+    </window>
+    <window class='worksheet' name='Hours per day per Explorer VS non Explorer'>
+      <cards>
+        <edge name='left'>
+          <strip size='240'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='255'>
+            <card pane-specification-id='0' param='[federated.1800dk914a3c711dvt3q606z8y59].[none:exploratory:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{318ABC8E-2767-47C0-92E5-A3E6B5E0C507}' />
+    </window>
+    <window class='dashboard' name='Dashboard'>
       <viewpoints>
         <viewpoint name='Anxiety Levels'>
           <zoom type='entire-view' />
         </viewpoint>
         <viewpoint name='Composer' />
         <viewpoint name='Depression Levels'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Hours per day per Explorer VS non Explorer'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Hours per day per Music Effect'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Hours per day per musicias VS non musicians'>
           <zoom type='entire-view' />
         </viewpoint>
         <viewpoint name='Insomnia Levels'>
@@ -3423,10 +3996,17 @@
         <viewpoint name='Primary Streaming Services Count'>
           <zoom type='entire-view' />
         </viewpoint>
-        <viewpoint name='Total of respondents' />
+        <viewpoint name='Total of respondents'>
+          <zoom type='entire-view' />
+        </viewpoint>
       </viewpoints>
-      <active id='5' />
-      <simple-id uuid='{8FCB4A0C-FE09-4524-91FB-D3AE5A01AEBE}' />
+      <active id='61' />
+      <simple-id uuid='{B30C994E-AB37-4B86-9A81-6914A191665C}' />
+    </window>
+    <window class='dashboard' name='História 1'>
+      <viewpoints />
+      <active id='-1' />
+      <simple-id uuid='{3F4CD8EE-C79F-4196-8B5D-1273B837A29B}' />
     </window>
   </windows>
 </workbook>

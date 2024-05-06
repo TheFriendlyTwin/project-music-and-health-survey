@@ -207,3 +207,17 @@ This file contains the list of querries performed to answer questions regarding 
 -----------------------------------------------------------------------------------------------------------------------------------
 **26. Which Which frequently (Very Frequently or Sometimes) listen to music genre has the highest number of respondents who suffer frequently from OCD VS the lowest?**
     - R: Rock music holds the highest number of respondents who suffer frequently from OCD and Gospel music holds the lowest.
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+**27. For each different Music Effect what is the average of hours respondents listen to music per day?**
+    - R: Respondents that answer that Music improves their mental health conditions spend on average 4 hours listening to music per day, while the ones who reported that has no effect or it has worsen spend 3 hours on average per day.
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+**28. On average how long does a musician (Instrumentalist or Composer) spends listening to music VS non musician?**
+    - R: Both musicians and non musicians spend on average 4 hours per day listening to music.
+
+-------------------------------------------------------------------------------------------------------------------------------
+**29. On average how long does a music explorer spends listening to music VS non music explorer?**
+    - R: A Music explorer spends on average 4 hours per day listening to music while a non explorer spends to 3 hours per day.
