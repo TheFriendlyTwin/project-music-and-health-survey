@@ -940,3 +940,21 @@ FROM (
 ) as counts
 order by count_ocd ASC
 limit 1);
+
+/* 27. For each different Music Effect what is the average of hours respondents listen to music per day?*/
+select music_effects, round(avg(hours_per_day), 0) as avg_hours_per_day
+from music_mental_health
+group by music_effects
+order by avg_hours_per_day desc;
+
+/* 28. On average how long does a musician (Instrumentalist or Composer) spends listening to music VS non musician?*/
+select
+	round(avg(case when instrumentalist = 'Yes' or composer = 'Yes' then hours_per_day else null end), 0) as avg_hours_musician,
+    round(avg(case when instrumentalist = 'No' and composer = 'No' then hours_per_day else null end), 0) as avg_hours_non_musician
+from music_mental_health;
+
+/* 29. On average how long does a music explorer spends listening to music VS non music explorer?*/
+select
+	round(avg(case when exploratory = 'Yes' then hours_per_day else null end), 0) as avg_hours_explorer,
+    round(avg(case when exploratory = 'No' then hours_per_day else null end), 0) as avg_hours_non_explorer
+from music_mental_health;
