@@ -64,6 +64,10 @@ And additionaly to predict if an individuals music preference can influence thei
       - Logistic Regression
     - Machine Learning
       - Decision Trees
+- final_observations - text file listing the final observations obtained after the EDA and CDA
+- sql_questions - text file listing all the querries performed to answer questions regardings the dataset
+- sql_querries - SQL file containing the querries listed on the sql_questions text file
+- Dashboard - Tableau file
   
 
 ## Presentation essentials
