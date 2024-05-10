@@ -3,10 +3,10 @@ Repository for Mafalda Sousa's Ironhacks Data Analytics Final Project
 
 
 ## Dataset
-The dataset was extracted in kaggle, and the data collection was managed by Catherine Rasgaitis, through a form with generic questions regarding musical background and listening habits and mental health symptoms.
+The dataset was extracted in Kaggle, and the data collection was managed by Catherine Rasgaitis, through a form with generic questions regarding musical background and listening habits, and mental health symptoms.
 
 Columns:
-- Timestamp - Date and time when form was submitted
+- Timestamp - Date and time when the form was submitted
 - Age - Respondent's age 
 - Primary streaming service - Respondent's primary streaming service
 - Hours per day - Number of hours the respondent listens to music per day
@@ -44,12 +44,12 @@ kaggle link: https://www.kaggle.com/datasets/catherinerasgaitis/mxmh-survey-resu
   
   
 ## Objective
-The goal here is to identify correlations between a person's music taste or relationship with music and its mental health.
-And additionaly to predict if an individuals music preference can influence their mental health status.
+The goal here is to identify correlations between a person's music taste or relationship with music and their mental health.
+And additionally to predict if an individual's music preference can influence their mental health status.
 
 
 ## Files
-- ´archive´/ mxmh_survey_results - Music & Mental Health Survey Results kaggle dataset csv file
+- ´archive´/ mxmh_survey_results - Music & Mental Health Survey Results Kaggle dataset CSV file
 - EDA python file containing:
   - Exploratory Data Analysis (EDA):
     - Data cleaning/ data preparation
@@ -65,11 +65,11 @@ And additionaly to predict if an individuals music preference can influence thei
     - Machine Learning
       - Decision Trees
 - final_observations - text file listing the final observations obtained after the EDA and CDA
-- sql_questions - text file listing all the querries performed to answer questions regardings the dataset
-- sql_querries - SQL file containing the querries listed on the sql_questions text file
+- sql_questions - text file listing all the queries performed to answer questions regarding the dataset
+- sql_querries - SQL file containing the queries listed on the sql_questions text file
 - Dashboard - Tableau file
   
 
 ## Presentation essentials
-- Tableu Dashboard -
-- Presentation - 
+- Tableau Dashboard - https://public.tableau.com/views/Dashboard_17153774143180/Dashboard?:language=pt-BR&:sid=&:display_count=n&:origin=viz_share_link
+- Presentation - https://slides.com/mafaldasousa-1/music-mental-health-survey-results/fullscreen
